@@ -9,7 +9,7 @@
                 if(self::$connect == null){
                    self::$connect = new PDO 
                    ('mysql:host=localhost;
-                     dbname=bdlojinha2000;',
+                     dbname=technical_enterprise;',
                     self::$usuario,self::$senha 
                    );                  
                 }
