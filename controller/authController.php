@@ -1,7 +1,11 @@
 <?php
 require_once '../model/userModel.php';
+require_once '../model/tectechniciansModel.php';
+
+session_start(); 
 
 class AuthControllerClient {
+
     public function register() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $name = $_POST['name'];
@@ -23,6 +27,13 @@ class AuthControllerClient {
             }
             if ($userModel->register($name, $cpf, $email, $telephone, $password)) {
                 echo "Cadastro realizado com sucesso!";
+                $user = $userModel->login($email, $password);
+                if ($user) {
+                    $_SESSION['user'] = $user; 
+                    header('Location: /dashboard'); 
+                } else {
+                    echo "Credenciais inválidas!";
+                }
             } else {
                 echo "Erro no cadastro!";
             }
@@ -38,12 +49,32 @@ class AuthControllerClient {
             $user = $userModel->login($email, $password);
             if ($user) {
                 $_SESSION['user'] = $user; 
+                $token = bin2hex(random_bytes(32));
+                $_SESSION['token'] = $token; 
                 header('Location: /dashboard'); 
             } else {
                 echo "Credenciais inválidas!";
             }
         }
        
+    }
+
+    public function Tectechnicians_login() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $matricula = $_POST['matricula'];
+            $password = $_POST['password'];
+
+            $tectechniciansModel = new TectechniciansModel();
+            $user = $tectechniciansModel->login($matricula, $password);
+            if ($user) {
+                $_SESSION['user'] = $user; 
+                $token = bin2hex(random_bytes(32));
+                $_SESSION['token'] = $token;
+                header('Location: /dashboard'); 
+            } else {
+                echo "Credenciais inválidas!";
+            }
+        }   
     }
 }
 

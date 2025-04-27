@@ -1,33 +1,68 @@
 <?php 
+
+require_once '../factory/conexao.php';
+
 class UserModel {
 
+    private $db;
+
+    public function __construct() {
+        $dbInstance = new Caminho();
+        $this->db = $dbInstance->getConn(); 
+    }
+
     public function confereEmail($email) {
-        
-        $query = "SELECT * FROM users WHERE email = ?";
-        $result = $this->db->query($query, [$email]);
-        return !empty($result); // Retorna true se o email já existe
+        try {
+            $query = "SELECT * FROM Users WHERE email = ?";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute([$email]);
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            return !empty($result); // Retorna true se o email já existe
+        } catch (PDOException $e) {
+            error_log("Erro ao verificar email: " . $e->getMessage());
+            return false;
+        }
     }
 
     public function confereCpf($cpf) {
-        
-        $query = "SELECT * FROM users WHERE cpf = ?";
-        $result = $this->db->query($query, [$cpf]);
-        return !empty($result); // Retorna true se o CPF já existe
+        try {
+            $query = "SELECT * FROM Users WHERE cpf = ?";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute([$cpf]);
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            return !empty($result); // Retorna true se o CPF já existe
+        } catch (PDOException $e) {
+            error_log("Erro ao verificar CPF: " . $e->getMessage());
+            return false;
+        }
     }
 
     public function register($name, $cpf, $email, $telephone, $password) {
-        
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-        $query = "INSERT INTO users (name, cpf, email, telephone, password) VALUES (?, ?, ?, ?, ?)";
-        $this->db->query($query, [$name, $cpf, $email, $telephone, $hashedPassword]);
+        try {
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+            $query = "INSERT INTO Users (name, cpf, email, telephone, password) VALUES (?, ?, ?, ?, ?)";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute([$name, $cpf, $email, $telephone, $hashedPassword]);
+            return true; // Registro bem-sucedido
+        } catch (PDOException $e) {
+            error_log("Erro ao registrar usuário: " . $e->getMessage());
+            return false;
+        }
     }
 
     public function login($email, $password) {
-        // Busca usuário no banco
-        $user = $this->db->query("SELECT * FROM users WHERE email = ?", [$email]);
-        // Verifica a senha
-        if ($user && password_verify($password, $user['password'])) {
-            return $user; // Retorna dados do usuário
+        try {
+            $query = "SELECT * FROM Users WHERE email = ?";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute([$email]);
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            // Verifica a senha
+            if ($user && password_verify($password, $user['password'])) {
+                return $user; // Retorna dados do usuário
+            }
+        } catch (PDOException $e) {
+            error_log("Erro ao fazer login: " . $e->getMessage());
         }
         return false; // Falha no login
     }
