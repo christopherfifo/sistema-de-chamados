@@ -3,7 +3,7 @@ CREATE DATABASE IF NOT EXISTS technical_enterprise DEFAULT CHARACTER SET utf8;
 USE technical_enterprise;
 
 CREATE TABLE IF NOT EXISTS Users(
-    id AUTO_INCREMENT primary key,
+    id INT AUTO_INCREMENT primary key,
     name VARCHAR(255) NOT NULL,
     cpf VARCHAR(255) NOT NULL UNIQUE,
     email VARCHAR(255) NOT NULL UNIQUE,
@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS Calleds(
 );
 
 CREATE TABLE IF NOT EXISTS Calleds_technicians(
-    id AUTO_INCREMENT primary key,
+    id INT AUTO_INCREMENT primary key,
     id_called INT NOT NULL,
     id_technician INT NOT NULL,
     matricula_technician VARCHAR(255) NOT NULL,

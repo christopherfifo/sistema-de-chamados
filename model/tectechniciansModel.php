@@ -2,15 +2,18 @@
 
 require_once '../factory/conexao.php';
 
-class TectechniciansModel {
+class TectechniciansModel
+{
     private $db;
 
-    public function __construct() {
+    public function __construct()
+    {
         $dbInstance = new Caminho();
-        $this->db = $dbInstance->getConn(); /
+        $this->db = $dbInstance->getConn();
     }
 
-    public function login($matricula, $password) {
+    public function login($matricula, $password)
+    {
         try {
             // Prepara a consulta SQL
             $stmt = $this->db->prepare("SELECT * FROM Tectechnicians WHERE matricula = :matricula");
@@ -32,5 +35,3 @@ class TectechniciansModel {
         return false; // Falha no login
     }
 }
-
-?>

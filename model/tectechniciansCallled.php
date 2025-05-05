@@ -2,16 +2,19 @@
 
 require_once '../factory/conexao.php';
 
-class TechniciansCalled {
+class TechniciansCalled
+{
     private $db;
 
-    public function __construct() {
+    public function __construct()
+    {
         $dbInstance = new Caminho();
         $this->db = $dbInstance->getConn();
     }
 
     // Cria o detalhamento do chamado
-    public function createDetail($idCalled, $idTechnician, $matriculaTechnician, $description) {
+    public function createDetail($idCalled, $idTechnician, $matriculaTechnician, $description)
+    {
 
         try {
             $query = "INSERT INTO Calleds_technicians (id_called, id_technician, matricula_technician, description) 
@@ -25,7 +28,8 @@ class TechniciansCalled {
         }
     }
 
-    public function updateDetail($idCalled, $idTechnician, $matriculaTechnician, $description) {
+    public function updateDetail($idCalled, $idTechnician, $matriculaTechnician, $description)
+    {
 
         try {
             $query = "UPDATE Calleds_technicians SET description = ? WHERE id_called = ? AND id_technician = ? AND matricula_technician = ?";
@@ -39,20 +43,22 @@ class TechniciansCalled {
     }
 
 
-    public function updateStatus($idCalled, $newStatus) {
+    public function updateStatus($idCalled, $newStatus)
+    {
 
         try {
             $query = "UPDATE Calleds SET status = ? WHERE id = ?";
             $stmt = $this->db->prepare($query);
             $stmt->execute([$newStatus, $idCalled]);
-            return true; 
+            return true;
         } catch (PDOException $e) {
             error_log("Erro ao atualizar status do chamado: " . $e->getMessage());
             return false;
         }
     }
 
-    puclic function getDetailsTec($idCalled) {
+    public function getDetailsTec($idCalled)
+    {
         try {
             $query = "SELECT 
                 c.id AS called_id, 
@@ -77,7 +83,4 @@ class TechniciansCalled {
             return false;
         }
     }
-
-
 }
-?>

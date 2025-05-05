@@ -6,12 +6,14 @@ class userCalled
 {
     private $db;
 
-    public function __construct() {
+    public function __construct()
+    {
         $dbInstance = new Caminho();
-        $this->db = $dbInstance->getConn(); /
+        $this->db = $dbInstance->getConn();
     }
 
-    public function createCalled($id_user, $description) {
+    public function createCalled($id_user, $description)
+    {
         $sql = "INSERT INTO Calleds (id_user, description) VALUES (:id_user, :description)";
         $stmt = $this->db->prepare($sql);
         $stmt->bindParam(':id_user', $id_user, PDO::PARAM_INT);
@@ -19,7 +21,8 @@ class userCalled
         return $stmt->execute();
     }
 
-    puclic function getDetailsUSer($idCalled) {
+    public function getDetailsUSer($idCalled)
+    {
         try {
             $query = "SELECT 
                 c.id AS called_id, 
@@ -44,8 +47,4 @@ class userCalled
             return false;
         }
     }
-
 }
-
-
-?>
