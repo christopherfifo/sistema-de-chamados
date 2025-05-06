@@ -1,28 +1,29 @@
 <?php
-    class Caminho{
-        public static $usuario = "root";
-        public static $senha = "123456";
-        public static $connect = null;
+class Caminho
+{
+    public static $usuario = "root";
+    public static $senha = "";
+    public static $connect = null;
 
-        private static function Conectar(){
-            try {
-                if(self::$connect == null){
-                   self::$connect = new PDO 
-                   ('mysql:host=localhost;
+    private static function Conectar()
+    {
+        try {
+            if (self::$connect == null) {
+                self::$connect = new PDO(
+                        'mysql:host=localhost;
                      dbname=technical_enterprise;',
-                    self::$usuario,self::$senha 
-                   );                  
-                }
-            } catch (Exception $ex) {
-                echo 'Mensagem: ' . $ex->
-                getMessage();
-                die;
+                        self::$usuario,
+                        self::$senha
+                    );
             }
-            return self::$connect;
+        } catch (Exception $ex) {
+            echo 'Mensagem: ' . $ex->getMessage();
+            die;
         }
-        public function getConn(){
-            return self::Conectar(); 
-        }
-
+        return self::$connect;
     }
-?>
+    public function getConn()
+    {
+        return self::Conectar();
+    }
+}

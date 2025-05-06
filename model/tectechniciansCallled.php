@@ -47,7 +47,7 @@ class TechniciansCalled
     {
 
         try {
-            $query = "UPDATE Calleds SET status = ? WHERE id = ?";
+            $query = "UPDATE Calleds SET estatus = ? WHERE id = ?";
             $stmt = $this->db->prepare($query);
             $stmt->execute([$newStatus, $idCalled]);
             return true;
@@ -83,4 +83,32 @@ class TechniciansCalled
             return false;
         }
     }
+
+    // lista todos os chamados
+    public function listAllCalleds()
+    {
+        try {
+            $query = "SELECT * FROM Calleds";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC); // Retorna todos os chamados
+        } catch (PDOException $e) {
+            error_log("Erro ao listar chamados: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    // lista os tecnicos
+    public function listAllTechnicians()
+    {
+        try {
+            $query = "SELECT * FROM Tectechnicians";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC); // Retorna todos os tecnicos
+        } catch (PDOException $e) {
+            error_log("Erro ao listar tecnicos: " . $e->getMessage());
+            return false;
+        }
+    }  
 }
