@@ -78,10 +78,10 @@ class AuthControllerClient {
     }
 }
 
-// Roteamento básico
-if (isset($_GET['action'])) {
+// Roteamento básico usando POST
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     $authController = new AuthControllerClient();
-    $action = $_GET['action'];
+    $action = $_POST['action'];
 
     if (method_exists($authController, $action)) {
         $authController->$action();
@@ -89,6 +89,6 @@ if (isset($_GET['action'])) {
         echo "Ação inválida!";
     }
 } else {
-    echo "Nenhuma ação especificada!";
+    echo "Nenhuma ação especificada ou método inválido!";
 }
 ?>

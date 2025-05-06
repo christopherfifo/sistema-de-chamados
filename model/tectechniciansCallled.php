@@ -98,6 +98,50 @@ class TechniciansCalled
         }
     }
 
+    // lista os chamados por usuario
+    public function listCalledsByUser($idUser)
+    {
+        try {
+            $query = "SELECT * FROM Calleds WHERE id_user = ?";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute([$idUser]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC); // Retorna todos os chamados do usuário
+        } catch (PDOException $e) {
+            error_log("Erro ao listar chamados do usuário: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    // lista os chamados por tecnico
+    public function listCalledsByTechnician($idTechnician)
+    {
+        try {
+            $query = "SELECT * FROM Calleds_technicians WHERE id_technician = ?";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute([$idTechnician]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC); // Retorna todos os chamados do técnico
+        } catch (PDOException $e) {
+            error_log("Erro ao listar chamados do técnico: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    //criar um chamado
+    public function createCalled($idUser, $codeCalled, $description, $estatus = "active")
+    {
+        try {
+            $query = "INSERT INTO Calleds (id_user, code_called, description, estatus) 
+                      VALUES (?, ?, ?, ?)";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute([$idUser, $codeCalled, $description, $estatus]);
+            return true; // Chamado criado com sucesso
+        } catch (PDOException $e) {
+            error_log("Erro ao criar chamado: " . $e->getMessage());
+            return false;
+        }
+    }
+    
+
     // lista os tecnicos
     public function listAllTechnicians()
     {

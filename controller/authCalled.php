@@ -68,5 +68,57 @@ class CalledTechnicians {
         $details = $calledTechniciansModel->getDetailsTec($idCalled);
         return $details;
     }
+
+    public function listCalledsByUser($idUser) {
+        if (!$this->isAuthenticated()) {
+            echo "Acesso negado! Técnico não autenticado.";
+            return false;
+        }
+
+        $calledTechniciansModel = new TechniciansCalled();
+        $calleds = $calledTechniciansModel->listCalledsByUser($idUser);
+        return $calleds;
+    }
+
+    public function listCalledsByTechnician($idTechnician) {
+        if (!$this->isAuthenticated()) {
+            echo "Acesso negado! Técnico não autenticado.";
+            return false;
+        }
+
+        $calledTechniciansModel = new TechniciansCalled();
+        $calleds = $calledTechniciansModel->listCalledsByTechnician($idTechnician);
+        return $calleds;
+    }
+
+    public function createCalled($idUser, $codeCalled, $description, $estatus = "active") {
+        if (!$this->isAuthenticated()) {
+            echo "Acesso negado! Técnico não autenticado.";
+            return false;
+        }
+
+        $calledTechniciansModel = new TechniciansCalled();
+        if ($calledTechniciansModel->createCalled($idUser, $codeCalled, $description, $estatus)) {
+            echo "Chamado criado com sucesso!";
+            return true;
+        } else {
+            echo "Erro ao criar chamado!";
+            return false;
+        }
+    }
+}
+
+// Roteamento básico usando POST
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
+    $authController = new CalledTechnicians();
+    $action = $_POST['action'];
+
+    if (method_exists($authController, $action)) {
+        $authController->$action();
+    } else {
+        echo "Ação inválida!";
+    }
+} else {
+    echo "Nenhuma ação especificada ou método inválido!";
 }
 ?>
