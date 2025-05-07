@@ -42,7 +42,7 @@ class AuthControllerClient {
 
     public function login() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $email = $_POST['email'];
+            $email = $_POST['usuario'];
             $password = $_POST['password'];
 
             $userModel = new UserModel();
@@ -61,7 +61,7 @@ class AuthControllerClient {
 
     public function Tectechnicians_login() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $matricula = $_POST['matricula'];
+            $matricula = $_POST['usuario'];
             $password = $_POST['password'];
 
             $tectechniciansModel = new TectechniciansModel();

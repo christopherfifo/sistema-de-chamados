@@ -92,9 +92,9 @@
     <div class="container obj bg-white rounded-3xl shadow-custom relative overflow-hidden w-[768px] max-w-full min-h-[500px] dark:shadow-custom-dark" id="container">
         <!-- Formulário de Login -->
         <div class="form-container login-container absolute top-0 h-full transition-all duration-600 ease-in-out left-0 w-1/2 z-10">
-            <form action="../backend/loginApi.php" method="POST" class="form_login flex flex-col items-center justify-center bg-white text-center px-12 h-full" id="formLogin">
+            <form action="" method="POST" class="form_login flex flex-col items-center justify-center bg-white text-center px-12 h-full" id="formLogin">
                 <h1 class="font-bold text-3xl mb-3">Login</h1>
-                <input type="email" id="accessInput" name="email" placeholder="Email ou Telefone" class="inputs_login bg-gray-200 rounded-xl border-none py-3 px-4 my-2 w-full">
+                <input type="email" id="accessInput" name="usuario" placeholder="Email ou matrícula" class="inputs_login bg-gray-200 rounded-xl border-none py-3 px-4 my-2 w-full">
                 <div class="espaco-senha w-full relative">
                     <input type="password" name="password" placeholder="Password" class="inputs_login bg-gray-200 rounded-xl border-none py-3 px-4 my-2 w-full pr-10" id="senha_entrar">
                     <i class="fa-regular fa-eye olhos obj absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer z-10 text-primary dark:text-darkblue"></i>
@@ -130,7 +130,7 @@
 
         <!-- Formulário de Registro -->
         <div class="form-container register-container absolute top-0 h-full transition-all duration-600 ease-in-out left-0 w-1/2 opacity-0 z-0">
-            <form action="../backend/loginRegister.php" method="POST" id="form" class="form_register flex flex-col items-center justify-center bg-white text-center px-12 h-full">
+            <form action="" method="POST" id="form" class="form_register flex flex-col items-center justify-center bg-white text-center px-12 h-full">
                 <h1 class="problema font-bold text-3xl mb-3">Registre aqui</h1>
                 <div class="espaco-input w-full flex flex-col text-left mb-2">
                     <input type="text" name="name" placeholder="Name" class="required input-register bg-gray-200 rounded-xl border-none py-3 px-4 w-full outline-none">
@@ -142,6 +142,10 @@
                 </div>
                 <div class="espaco-input w-full flex flex-col text-left mb-2">
                     <input type="tel" name="telefone" placeholder="Numero de telefone" class="required input-register bg-gray-200 rounded-xl border-none py-3 px-4 w-full outline-none">
+                    <span class="error_span text-red-500 text-xs font-medium hidden"></span>
+                </div>
+                <div class="espaco-input w-full flex flex-col text-left mb-2">
+                    <input type="text" name="cpf" placeholder="CPF" class="required input-register bg-gray-200 rounded-xl border-none py-3 px-4 w-full outline-none" minlength="11" maxlength="11" pattern="\d{11}" title="O CPF deve conter exatamente 11 dígitos numéricos">
                     <span class="error_span text-red-500 text-xs font-medium hidden"></span>
                 </div>
                 <div class="espaco-input w-full flex flex-col text-left mb-2">
