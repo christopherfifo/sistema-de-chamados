@@ -94,6 +94,7 @@
         <div class="form-container login-container absolute top-0 h-full transition-all duration-600 ease-in-out left-0 w-1/2 z-10">
             <form action="" method="POST" class="form_login flex flex-col items-center justify-center bg-white text-center px-12 h-full" id="formLogin">
                 <h1 class="font-bold text-3xl mb-3">Login</h1>
+                <input type="hidden" name="action" value="" id="actioninput">
                 <input type="email" id="accessInput" name="usuario" placeholder="Email ou matrícula" class="inputs_login bg-gray-200 rounded-xl border-none py-3 px-4 my-2 w-full">
                 <div class="espaco-senha w-full relative">
                     <input type="password" name="password" placeholder="Password" class="inputs_login bg-gray-200 rounded-xl border-none py-3 px-4 my-2 w-full pr-10" id="senha_entrar">
@@ -111,27 +112,15 @@
                 <button type="submit" class="rl-tema obj rounded-2xl border border-primary bg-primary text-white font-bold py-3 px-20 mx-2 my-2 transition-slow hover:tracking-wider active:scale-95 focus:outline-none dark:border-darkblue dark:bg-darkblue" id="vali_login">
                     Login
                 </button>
-                <div class="social-container obj my-5">
-                    <a href="#" class="social obj border-2 border-gray-300 rounded-full inline-flex justify-center items-center h-10 w-10 mx-1 transition-slow hover:border-primary dark:hover:border-darkblue">
-                        <i class="fa-brands fa-facebook"></i>
-                    </a>
-                    <a href="#" class="social obj border-2 border-gray-300 rounded-full inline-flex justify-center items-center h-10 w-10 mx-1 transition-slow hover:border-primary dark:hover:border-darkblue">
-                        <i class="fa-brands fa-google"></i>
-                    </a>
-                    <a href="#" class="social obj border-2 border-gray-300 rounded-full inline-flex justify-center items-center h-10 w-10 mx-1 transition-slow hover:border-primary dark:hover:border-darkblue">
-                        <i class="fa-brands fa-linkedin"></i>
-                    </a>
-                    <a href="#" class="social obj border-2 border-gray-300 rounded-full inline-flex justify-center items-center h-10 w-10 mx-1 transition-slow hover:border-primary dark:hover:border-darkblue">
-                        <i class="fa-brands fa-github"></i>
-                    </a>
-                </div>
             </form>
         </div>
 
         <!-- Formulário de Registro -->
         <div class="form-container register-container absolute top-0 h-full transition-all duration-600 ease-in-out left-0 w-1/2 opacity-0 z-0">
-            <form action="" method="POST" id="form" class="form_register flex flex-col items-center justify-center bg-white text-center px-12 h-full">
+            <div class="min-h-full w-full overflow-y-auto">
+            <form action="" method="POST" id="form" class="form_register flex flex-col items-center justify-center bg-white text-center px-12 h-full ">
                 <h1 class="problema font-bold text-3xl mb-3">Registre aqui</h1>
+                <input type="hidden" name="action" value="register">
                 <div class="espaco-input w-full flex flex-col text-left mb-2">
                     <input type="text" name="name" placeholder="Name" class="required input-register bg-gray-200 rounded-xl border-none py-3 px-4 w-full outline-none">
                     <span class="error_span text-red-500 text-xs font-medium hidden"></span>
@@ -173,21 +162,8 @@
                 <button type="submit" id="vali_register" class="rl-tema obj rounded-2xl border border-primary bg-primary text-white font-bold py-3 px-20 mx-2 my-2 transition-slow hover:tracking-wider active:scale-95 focus:outline-none dark:border-darkblue dark:bg-darkblue">
                     Registrar
                 </button>
-                <div class="social-container obj my-5">
-                    <a href="#" class="social obj border-2 border-gray-300 rounded-full inline-flex justify-center items-center h-10 w-10 mx-1 transition-slow hover:border-primary dark:hover:border-darkblue">
-                        <i class="fa-brands fa-facebook"></i>
-                    </a>
-                    <a href="#" class="social obj border-2 border-gray-300 rounded-full inline-flex justify-center items-center h-10 w-10 mx-1 transition-slow hover:border-primary dark:hover:border-darkblue">
-                        <i class="fa-brands fa-google"></i>
-                    </a>
-                    <a href="#" class="social obj border-2 border-gray-300 rounded-full inline-flex justify-center items-center h-10 w-10 mx-1 transition-slow hover:border-primary dark:hover:border-darkblue">
-                        <i class="fa-brands fa-linkedin"></i>
-                    </a>
-                    <a href="#" class="social obj border-2 border-gray-300 rounded-full inline-flex justify-center items-center h-10 w-10 mx-1 transition-slow hover:border-primary dark:hover:border-darkblue">
-                        <i class="fa-brands fa-github"></i>
-                    </a>
-                </div>
             </form>
+            </div>
         </div>
 
         <!-- Overlay Container -->

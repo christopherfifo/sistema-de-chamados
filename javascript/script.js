@@ -13,6 +13,22 @@ loginbtn.addEventListener("click", () => {
 });
 
 //! vericação
+
+//! verifcação do login se é email ou matricula
+
+document.getElementById('formLogin').addEventListener('submit', function (e) {
+  const accessInput = document.getElementById('accessInput').value;
+  const actionInput = document.getElementById('actioninput');
+
+  // Verifica se é um email ou matrícula
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (emailRegex.test(accessInput)) {
+      actionInput.value = 'login'; // Rota para usuários
+  } else {
+      actionInput.value = 'Tectechnicians_login'; // Rota para técnicos
+  }
+});
+
 // Seleciona elementos do DOM
 const formRegister = document.getElementById("form"); // Formulário de registro
 const campos = document.querySelectorAll(".required"); // Campos obrigatórios
@@ -91,7 +107,7 @@ async function validacaoFinal(event) {
     const formData = new FormData(formRegister);
     try {
       const response = await fetch(
-        "http://localhost/sistema de chamados/controller/authController.php",
+        "http://localhost/sistema-de-chamados/controller/authController.php",
         {
           method: "POST",
           body: formData,
@@ -132,7 +148,7 @@ async function validacaoLogin(event) {
 
   try {
     const response = await fetch(
-      "http://localhost/sistema de chamados/controller/authController.php",
+      "http://localhost/sistema-de-chamados/controller/authController.php",
       {
         method: "POST",
         body: formData,

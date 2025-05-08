@@ -83,6 +83,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     $authController = new AuthControllerClient();
     $action = $_POST['action'];
 
+    if($action != "register"){
+
+    }
+
     if (method_exists($authController, $action)) {
         $authController->$action();
     } else {

@@ -77,3 +77,6 @@ INSERT INTO Calleds_technicians (id_called, id_technician, matricula_technician,
 (1, 1, '123456', 'Teste de chamado'),
 (2, 2, '33222', 'Teste de chamado 2'),
 (3, 3, '123458', 'Teste de chamado 3');
+
+select * from Users;
+select * from Technicians;
