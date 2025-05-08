@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="../javascript/script.js" defer></script>
+    <script src="../javascript/geral.js" defer></script>
     <title>login</title>
     <script>
         tailwind.config = {
@@ -116,9 +117,8 @@
         </div>
 
         <!-- Formulário de Registro -->
-        <div class="form-container register-container absolute top-0 h-full transition-all duration-600 ease-in-out left-0 w-1/2 opacity-0 z-0">
-            <div class="min-h-full w-full overflow-y-auto">
-            <form action="" method="POST" id="form" class="form_register flex flex-col items-center justify-center bg-white text-center px-12 h-full ">
+        <div class="form-container register-container absolute top-0 h-full transition-all duration-600 ease-in-out left-0 w-1/2 opacity-0 z-0">   
+            <form action="" method="POST" id="form" class="form_register flex flex-col items-center justify-center bg-white text-center px-12 min-h-full overflow-y-auto">
                 <h1 class="problema font-bold text-3xl mb-3">Registre aqui</h1>
                 <input type="hidden" name="action" value="register">
                 <div class="espaco-input w-full flex flex-col text-left mb-2">
@@ -162,8 +162,7 @@
                 <button type="submit" id="vali_register" class="rl-tema obj rounded-2xl border border-primary bg-primary text-white font-bold py-3 px-20 mx-2 my-2 transition-slow hover:tracking-wider active:scale-95 focus:outline-none dark:border-darkblue dark:bg-darkblue">
                     Registrar
                 </button>
-            </form>
-            </div>
+            </form> 
         </div>
 
         <!-- Overlay Container -->
