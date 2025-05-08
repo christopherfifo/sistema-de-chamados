@@ -34,7 +34,7 @@ class TechniciansCalled
         try {
             $query = "UPDATE Calleds_technicians SET description = ? WHERE id_called = ? AND id_technician = ? AND matricula_technician = ?";
             $stmt = $this->db->prepare($query);
-            $stmt->execute([$idCalled, $idTechnician, $matriculaTechnician, $description]);
+            $stmt->execute([$description, $idCalled, $idTechnician, $matriculaTechnician]);
             return true; // Detalhamento criado com sucesso
         } catch (PDOException $e) {
             error_log("Erro ao atualizar o detalhamento " . $e->getMessage());
@@ -140,7 +140,7 @@ class TechniciansCalled
             return false;
         }
     }
-    
+
 
     // lista os tecnicos
     public function listAllTechnicians()
@@ -154,5 +154,33 @@ class TechniciansCalled
             error_log("Erro ao listar tecnicos: " . $e->getMessage());
             return false;
         }
-    }  
+    }
+
+    // deletar um chamado
+    public function deleteCalled($idCalled)
+    {
+        try {
+            $query = "DELETE FROM Calleds WHERE id = ?";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute([$idCalled]);
+            return true; // Chamado deletado com sucesso
+        } catch (PDOException $e) {
+            error_log("Erro ao deletar chamado: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    // aceitar um chamado
+    public function acceptCalled($idCalled, $idTechnician)
+    {
+        try {
+            $query = "UPDATE Calleds SET id_technician = ? WHERE id = ?";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute([$idTechnician, $idCalled]);
+            return true; // Chamado aceito com sucesso
+        } catch (PDOException $e) {
+            error_log("Erro ao aceitar chamado: " . $e->getMessage());
+            return false;
+        }
+    }
 }
