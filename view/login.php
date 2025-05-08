@@ -95,7 +95,7 @@
         <div class="form-container login-container absolute top-0 h-full transition-all duration-600 ease-in-out left-0 w-1/2 z-10">
             <form action="" method="POST" class="form_login flex flex-col items-center justify-center bg-white text-center px-12 h-full" id="formLogin">
                 <h1 class="font-bold text-3xl mb-3">Login</h1>
-                <input type="hidden" name="action" value="" id="actioninput">
+                <input type="hidden" name="action" value="login">
                 <input type="email" id="accessInput" name="usuario" placeholder="Email ou matrícula" class="inputs_login bg-gray-200 rounded-xl border-none py-3 px-4 my-2 w-full">
                 <div class="espaco-senha w-full relative">
                     <input type="password" name="password" placeholder="Password" class="inputs_login bg-gray-200 rounded-xl border-none py-3 px-4 my-2 w-full pr-10" id="senha_entrar">
@@ -130,7 +130,7 @@
                     <span class="error_span text-red-500 text-xs font-medium hidden"></span>
                 </div>
                 <div class="espaco-input w-full flex flex-col text-left mb-2">
-                    <input type="tel" name="telefone" placeholder="Numero de telefone" class="required input-register bg-gray-200 rounded-xl border-none py-3 px-4 w-full outline-none">
+                    <input type="tel" name="telephone" placeholder="Numero de telefone" class="required input-register bg-gray-200 rounded-xl border-none py-3 px-4 w-full outline-none">
                     <span class="error_span text-red-500 text-xs font-medium hidden"></span>
                 </div>
                 <div class="espaco-input w-full flex flex-col text-left mb-2">
