@@ -12,6 +12,41 @@
     <title>Sistema de Chamados</title>
 </head>
 
+<?php
+// Deletar chamado
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['deleteCalledId'])) {
+    $id = $_POST['deleteCalledId'];
+    $techniciansCalled = new TechniciansCalled();
+    if ($techniciansCalled->deleteCalled($id)) {
+        echo "<script>alert('Chamado deletado com sucesso!'); window.location.href='chamados.php';</script>";
+        exit;
+    } else {
+        echo "<p class='text-red-500 mt-5'>Erro ao deletar o chamado.</p>";
+    }
+}
+
+session_start();
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['acceptCalled'])) {
+    $idCalled = $_POST['acceptCalledId'] ?? null;
+
+    $user = $_SESSION['user'] ?? null;
+    $idTechnician = $user['id'] ?? null;
+    $matriculaTechnician = $user['matricula'] ?? null;
+
+    if ($idCalled && $idTechnician && $matriculaTechnician) {
+        $techniciansCalled = new TechniciansCalled();
+        if ($techniciansCalled->acceptCalled($idCalled, $idTechnician, $matriculaTechnician)) {
+            echo "<p class='text-green-500 mt-5'>Chamado aceito com sucesso!</p>";
+        } else {
+            echo "<p class='text-red-500 mt-5'>Erro ao aceitar o chamado.</p>";
+        }
+    } else {
+        echo "<p class='text-red-500 mt-5'>Erro: dados do técnico não encontrados.</p>";
+    }
+}
+?>
+
 <body>
     <header>
         <h1 class="text-3xl flex justify-center my-5 font-semibold">Sistema de Chamados</h1>
@@ -42,7 +77,13 @@
                                 echo "<td class='text-center'>" . htmlspecialchars($called['code_called']) . "</td>";
                                 echo "<td class='text-center'>" . htmlspecialchars($called['description']) . "</td>";
                                 echo "<td class='text-center'>" . htmlspecialchars($called['estatus']) . "</td>";
-                                echo "<td class='text-center underline'><a href='?id=" . htmlspecialchars($called['id']) . "' class='text-blue-500'>Ver Detalhes</a></td>";
+                                echo "<td class='text-center'>";
+                                echo "<a href='?id=" . htmlspecialchars($called['id']) . "' class='text-blue-500 underline'>Ver Detalhes</a> | ";
+                                echo "<form method='POST' action='' style='display:inline'>
+        <input type='hidden' name='deleteCalledId' value='" . htmlspecialchars($called['id']) . "'>
+        <button type='submit' class='text-red-500 underline ml-1' onclick=\"return confirm('Tem certeza que deseja deletar este chamado?')\">Deletar</button>
+      </form>";
+                                echo "</td>";
                                 echo "</tr>";
                             }
                         } else {
@@ -75,6 +116,18 @@
                         echo "<p><strong>Técnico Responsável:</strong> " . htmlspecialchars($details['matricula_technician']) . "</p>";
                         echo "<p><strong>Descrição do Detalhe:</strong> " . htmlspecialchars($details['detail_description']) . "</p>";
                         echo "<p><strong>Nome do Cliente:</strong> " . htmlspecialchars($details['client_name']) . "</p>";
+                        echo "<br>";
+                        $disabled = !empty($details['matricula_technician']);
+                        $disabledAttr = $disabled ? 'disabled' : '';
+                        $buttonClass = $disabled
+                            ? 'bg-gray-400 text-white px-4 py-2 rounded cursor-not-allowed opacity-60'
+                            : 'bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600';
+
+                        echo "<form action='' method='POST' class='mt-4'>
+    <input type='hidden' name='acceptCalledId' value='" . htmlspecialchars($details['called_id']) . "'>
+    <button type='submit' name='acceptCalled' class='" . $buttonClass . "' " . $disabledAttr . ">Aceitar Chamado</button>
+</form>";
+
                         echo "</div>";
                     } else {
                         echo "<p>Nenhum detalhe encontrado para o chamado com ID: " . htmlspecialchars($idCalled) . "</p>";

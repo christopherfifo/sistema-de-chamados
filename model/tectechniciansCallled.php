@@ -171,15 +171,47 @@ class TechniciansCalled
     }
 
     // aceitar um chamado
-    public function acceptCalled($idCalled, $idTechnician)
+    /*
+CREATE TABLE IF NOT EXISTS Calleds(
+    id INT AUTO_INCREMENT primary key,
+    id_user INT NOT NULL,
+    code_called INT NOT NULL UNIQUE,
+    description VARCHAR(255) NOT NULL,
+    estatus VARCHAR(255) NOT NULL DEFAULT 'active',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_user) REFERENCES Users(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS Calleds_technicians(
+    id INT AUTO_INCREMENT primary key,
+    id_called INT NOT NULL,
+    id_technician INT NOT NULL,
+    matricula_technician VARCHAR(255) NOT NULL,
+    description VARCHAR(255) NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_called) REFERENCES Calleds(id) ON DELETE CASCADE,
+    FOREIGN KEY (id_technician) REFERENCES Technicians(id) ON DELETE CASCADE
+);
+
+    */
+    // criar entrada na tabela calleds_technicians
+    public function acceptCalled($idCalled, $idTechnician, $matriculaTechnician)
     {
         try {
-            $query = "UPDATE Calleds SET id_technician = ? WHERE id = ?";
+            $query = "INSERT INTO Calleds_technicians (id_called, id_technician, matricula_technician) 
+                      VALUES (?, ?, ?)";
+            echo "<script>console.log('Chamado aceito: id_called = " . $idCalled . ", id_technician = " . $idTechnician . ", matricula_technician = " . $matriculaTechnician . "');</script>";
             $stmt = $this->db->prepare($query);
-            $stmt->execute([$idTechnician, $idCalled]);
+            $stmt->execute([$idCalled, $idTechnician, $matriculaTechnician]);
+            // log query to console
+
             return true; // Chamado aceito com sucesso
         } catch (PDOException $e) {
             error_log("Erro ao aceitar chamado: " . $e->getMessage());
+            // log to console
+            echo "<script>console.log('Erro ao aceitar chamado: " . $e->getMessage() . "');</script>";
             return false;
         }
     }
