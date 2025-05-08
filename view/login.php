@@ -96,7 +96,7 @@
             <form action="" method="POST" class="form_login flex flex-col items-center justify-center bg-white text-center px-12 h-full" id="formLogin">
                 <h1 class="font-bold text-3xl mb-3">Login</h1>
                 <input type="hidden" name="action" value="login">
-                <input type="email" id="accessInput" name="usuario" placeholder="Email ou matrícula" class="inputs_login bg-gray-200 rounded-xl border-none py-3 px-4 my-2 w-full">
+                <input type="email" id="accessInput" name="usuario" placeholder="Email" class="inputs_login bg-gray-200 rounded-xl border-none py-3 px-4 my-2 w-full">
                 <div class="espaco-senha w-full relative">
                     <input type="password" name="password" placeholder="Password" class="inputs_login bg-gray-200 rounded-xl border-none py-3 px-4 my-2 w-full pr-10" id="senha_entrar">
                     <i class="fa-regular fa-eye olhos obj absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer z-10 text-primary dark:text-darkblue"></i>
