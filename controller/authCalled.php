@@ -106,6 +106,38 @@ class CalledTechnicians {
             return false;
         }
     }
+
+    public function deleteCalled($idCalled) {
+        if (!$this->isAuthenticated()) {
+            echo "Acesso negado! Técnico não autenticado.";
+            return false;
+        }
+
+        $calledTechniciansModel = new TechniciansCalled();
+        if ($calledTechniciansModel->deleteCalled($idCalled)) {
+            echo "Chamado deletado com sucesso!";
+            return true;
+        } else {
+            echo "Erro ao deletar chamado!";
+            return false;
+        }
+    }
+
+    public function acceptCalled($idCalled, $idTechnician) {
+        if (!$this->isAuthenticated()) {
+            echo "Acesso negado! Técnico não autenticado.";
+            return false;
+        }
+
+        $calledTechniciansModel = new TechniciansCalled();
+        if ($calledTechniciansModel->acceptCalled($idCalled, $idTechnician)) {
+            echo "Chamado aceito com sucesso!";
+            return true;
+        } else {
+            echo "Erro ao aceitar chamado!";
+            return false;
+        }
+    }
 }
 
 // Roteamento básico usando POST
