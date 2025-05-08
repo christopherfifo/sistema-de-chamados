@@ -42,6 +42,67 @@ class userAuthCalled {
             return false;
         }
     }
+
+    // Obtém um chamado específico e busca a descrição, se houver
+    public function getCalled($idCalled) {
+        if (!$this->isAuthenticated()) {
+            echo "Acesso negado! Usuário não autenticado.";
+            return false;
+        }
+
+        $userCalledModel = new userCalled();
+        $called = $userCalledModel->getCalled($idCalled);
+        if ($called) {
+            // Busca a descrição do chamado, se disponível
+            $description = $userCalledModel->getDescription($idCalled);
+            if ($description) {
+                $called['description'] = $description;
+            }
+            return $called;
+        } else {
+            echo "Erro ao obter chamado!";
+            return false;
+        }
+    }
+
+    // Lista todos os chamados relacionados ao usuário
+    public function listCalleds($id_user) {
+        if (!$this->isAuthenticated()) {
+            echo "Acesso negado! Usuário não autenticado.";
+            return false;
+        }
+
+        $userCalledModel = new userCalled();
+        $calleds = $userCalledModel->listCalleds($id_user);
+        if ($calleds) {
+            return $calleds;
+        } else {
+            echo "Erro ao listar chamados!";
+            return false;
+        }
+    }
+
+    // Cancela um chamado
+    public function cancelCalled($idCalled, $status) {
+        if (!$this->isAuthenticated()) {
+            echo "Acesso negado! Usuário não autenticado.";
+            return false;
+        }
+
+        if ($status !== "CANCELADO") {
+            echo "Status inválido para cancelamento!";
+            return false;
+        }
+
+        $userCalledModel = new userCalled();
+        if ($userCalledModel->cancelCalled($idCalled, $status)) {
+            echo "Chamado cancelado com sucesso!";
+            return true;
+        } else {
+            echo "Erro ao cancelar chamado!";
+            return false;
+        }
+    }
 }
 
 // Roteamento básico usando POST

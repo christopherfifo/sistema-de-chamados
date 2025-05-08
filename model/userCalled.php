@@ -21,6 +21,21 @@ class userCalled
         return $stmt->execute();
     }
 
+    //pegar um chamado específico
+    public function getCalled($idCalled)
+    {
+        try {
+            $query = "SELECT * FROM Calleds WHERE id = ?";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute([$idCalled]);
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $result ? $result : null; // Retorna o chamado ou null se não existir
+        } catch (PDOException $e) {
+            error_log("Erro ao obter chamado: " . $e->getMessage());
+            return false;
+        }
+    }
+
     public function getDetailsUSer($idCalled)
     {
         try {
