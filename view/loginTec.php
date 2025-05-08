@@ -34,7 +34,7 @@
 
   <div class="w-full max-w-md p-6">
     <div class="form-container login-container w-full bg-white shadow-lg rounded-2xl">
-      <form action="" method="POST" class="form_login flex flex-col items-center justify-center text-center px-8 py-10" id="formLogin">
+      <form action="../controller/authController.php" method="POST" class="form_login flex flex-col items-center justify-center text-center px-8 py-10" id="formLogin">
         <h1 class="font-bold text-3xl mb-4">Tecnicos</h1>
         <input type="hidden" name="action" value="Tectechnicians_login">
         <input type="text" id="accessInput" name="usuario" placeholder="matrícula" class="inputs_login bg-gray-200 rounded-xl border-none py-3 px-4 my-2 w-full">

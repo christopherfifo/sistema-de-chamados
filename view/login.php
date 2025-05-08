@@ -93,7 +93,7 @@
     <div class="container obj bg-white rounded-3xl shadow-custom relative overflow-hidden w-[768px] max-w-full min-h-[500px] dark:shadow-custom-dark" id="container">
         <!-- Formulário de Login -->
         <div class="form-container login-container absolute top-0 h-full transition-all duration-600 ease-in-out left-0 w-1/2 z-10">
-            <form action="" method="POST" class="form_login flex flex-col items-center justify-center bg-white text-center px-12 h-full" id="formLogin">
+            <form action="../controller/authController.php" method="POST" class="form_login flex flex-col items-center justify-center bg-white text-center px-12 h-full" id="formLogin">
                 <h1 class="font-bold text-3xl mb-3">Login</h1>
                 <input type="hidden" name="action" value="login">
                 <input type="email" id="accessInput" name="usuario" placeholder="Email" class="inputs_login bg-gray-200 rounded-xl border-none py-3 px-4 my-2 w-full">

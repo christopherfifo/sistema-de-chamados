@@ -12,8 +12,6 @@ loginbtn.addEventListener("click", () => {
   container.classList.remove("right-panel-active");
 });
 
-//! vericação
-
 
 
 // Seleciona elementos do DOM
@@ -25,10 +23,8 @@ const emailRegex =
   /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
 // Seleciona elementos do login
-const accessInput = document.getElementById("accessInput"); // Campo de email/usuário
+
 const passwordInput = document.getElementById("senha_entrar"); // Campo de senha
-const validarLogin = document.getElementById("vali_login"); // Botão de login
-const formLogin = document.getElementById("formLogin"); // Formulário de login
 
 // Funções de validação para registro
 const validators = [
@@ -118,54 +114,9 @@ async function validacaoFinal(event) {
   }
 }
 
-// Validação de login
-async function validacaoLogin(event) {
-  event.preventDefault(); // Impede o comportamento padrão do botão
-
-  const formData = new FormData(formLogin); // Captura dados do formLogin
-
-  // Verifique se o FormData não está vazio
-  if (
-    formData.get("accessInput") === "" ||
-    formData.get("senha_entrar") === ""
-  ) {
-    alert("Por favor, preencha todos os campos.");
-    return;
-  }
-
-  try {
-    const response = await fetch(
-      "http://localhost/sistema-de-chamados/controller/authController.php",
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
-
-    const data = await response.json();
-    if (data.success) {
-      alert(data.success); // Mensagem de sucesso
-
-      // Salva o token no localStorage
-      localStorage.setItem("authToken", data.token);
-
-      // Redirecionar ou realizar outra ação após o login
-      window.location.href = "";
-    } else {
-      alert(data.error); // Mensagem de erro
-    }
-  } catch (error) {
-    console.error("Erro:", error);
-    alert("Erro ao entrar. Tente novamente.");
-  }
-}
 
 // Adiciona o ouvinte de eventos para o botão de registro
 validarRegistro.addEventListener("click", validacaoFinal);
-
-// Adiciona o ouvinte de eventos para o botão de login
-validarLogin.addEventListener("click", validacaoLogin);
-
 
 
 //! local storege
