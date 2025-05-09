@@ -90,7 +90,7 @@ async function validacaoFinal(event) {
     const formData = new FormData(formRegister);
     try {
       const response = await fetch(
-        "http://localhost/sistema-de-chamados/controller/authController.php",
+        "../controller/authController.php",
         {
           method: "POST",
           body: formData,

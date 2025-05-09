@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -20,6 +21,7 @@
     }
   </script>
 </head>
+
 <body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white min-h-screen flex items-center justify-center px-4">
 
   <div class="max-w-4xl w-full bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden">
@@ -42,8 +44,8 @@
 
         <!-- Botões de ação -->
         <div class="w-full space-y-4">
-          <a href="/sistema de chamados/view/login.php" class="block text-center bg-primary text-white py-3 rounded-xl font-bold hover:bg-[#3ba7a7] transition duration-300">Sou Usuário - Cadastrar/Logar</a>
-          <a href="/sistema de chamados/view/loginTec.php" class="block text-center border-2 border-darkblue text-darkblue py-3 rounded-xl font-bold hover:bg-darkblue hover:text-white transition duration-300">Sou Técnico - Entrar</a>
+          <a href="./login.php" class="block text-center bg-primary text-white py-3 rounded-xl font-bold hover:bg-[#3ba7a7] transition duration-300">Sou Usuário - Cadastrar/Logar</a>
+          <a href="./loginTec.php" class="block text-center border-2 border-darkblue text-darkblue py-3 rounded-xl font-bold hover:bg-darkblue hover:text-white transition duration-300">Sou Técnico - Entrar</a>
         </div>
 
         <!-- Alternância de tema -->
@@ -54,4 +56,5 @@
   </div>
 
 </body>
+
 </html>

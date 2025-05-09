@@ -1,5 +1,3 @@
-
-
 // Seleciona elementos do login
 const accessInput = document.getElementById("accessInput"); // Campo de email/usuário
 const passwordInput = document.getElementById("senha_entrar"); // Campo de senha
@@ -59,32 +57,32 @@ function validateField(index) {
 //! local storege
 
 document.addEventListener("DOMContentLoaded", function () {
-    const accessInput = document.getElementById("accessInput");
-    const rememberCheckbox = document.getElementById("rememberCheckbox");
+  const accessInput = document.getElementById("accessInput");
+  const rememberCheckbox = document.getElementById("rememberCheckbox");
 
-    // Verifica se já existe uma forma de acesso salva no localStorage
-    const savedAccess = localStorage.getItem("userAccessInfo");
+  // Verifica se já existe uma forma de acesso salva no localStorage
+  const savedAccess = localStorage.getItem("userAccessInfo");
 
-    if (savedAccess) {
-        accessInput.value = savedAccess;
-        rememberCheckbox.checked = true;
+  if (savedAccess) {
+    accessInput.value = savedAccess;
+    rememberCheckbox.checked = true;
+  }
+
+  // Adiciona um evento de mudança ao checkbox
+  rememberCheckbox.addEventListener("change", function () {
+    if (this.checked) {
+      localStorage.setItem("userAccessInfo", accessInput.value);
+    } else {
+      localStorage.removeItem("userAccessInfo");
     }
+  });
 
-    // Adiciona um evento de mudança ao checkbox
-    rememberCheckbox.addEventListener("change", function () {
-        if (this.checked) {
-            localStorage.setItem("userAccessInfo", accessInput.value);
-        } else {
-            localStorage.removeItem("userAccessInfo");
-        }
-    });
-
-    // Atualiza o localStorage toda vez que o usuário digita no input
-    accessInput.addEventListener("input", function () {
-        if (rememberCheckbox.checked) {
-            localStorage.setItem("userAccessInfo", this.value);
-        }
-    });
+  // Atualiza o localStorage toda vez que o usuário digita no input
+  accessInput.addEventListener("input", function () {
+    if (rememberCheckbox.checked) {
+      localStorage.setItem("userAccessInfo", this.value);
+    }
+  });
 });
 
 //! expor senha
@@ -106,4 +104,3 @@ document.querySelectorAll(".olhos").forEach(function (icon) {
     }
   });
 });
-
