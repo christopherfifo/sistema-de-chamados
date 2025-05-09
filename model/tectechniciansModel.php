@@ -24,9 +24,9 @@ class TectechniciansModel
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
             // Verifica se o usuário existe e a senha está correta
-            if ($user && password_verify($password, $user['password'])) {
-                return $user; // Retorna os dados do usuário
-            }
+    if ($user && $password === $user['password']) {
+        return $user;
+    }
         } catch (PDOException $e) {
             // Trata erros de banco de dados
             error_log("Erro no login: " . $e->getMessage());
