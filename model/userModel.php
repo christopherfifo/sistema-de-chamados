@@ -1,17 +1,20 @@
-<?php 
+<?php
 
 require_once '../factory/conexao.php';
 
-class UserModel {
+class UserModel
+{
 
     private $db;
 
-    public function __construct() {
+    public function __construct()
+    {
         $dbInstance = new Caminho();
-        $this->db = $dbInstance->getConn(); 
+        $this->db = $dbInstance->getConn();
     }
 
-    public function confereEmail($email) {
+    public function confereEmail($email)
+    {
         try {
             $query = "SELECT * FROM Users WHERE email = ?";
             $stmt = $this->db->prepare($query);
@@ -24,7 +27,8 @@ class UserModel {
         }
     }
 
-    public function confereCpf($cpf) {
+    public function confereCpf($cpf)
+    {
         try {
             $query = "SELECT * FROM Users WHERE cpf = ?";
             $stmt = $this->db->prepare($query);
@@ -37,7 +41,8 @@ class UserModel {
         }
     }
 
-    public function register($name, $cpf, $email, $telephone, $password) {
+    public function register($name, $cpf, $email, $telephone, $password)
+    {
         try {
             $hashedPassword = $password;
             $query = "INSERT INTO Users (name, cpf, email, telephone, password) VALUES (?, ?, ?, ?, ?)";
@@ -46,11 +51,13 @@ class UserModel {
             return true; // Registro bem-sucedido
         } catch (PDOException $e) {
             error_log("Erro ao registrar usuário: " . $e->getMessage());
+
             return false;
         }
     }
 
-    public function login($email, $password) {
+    public function login($email, $password)
+    {
         try {
             $query = "SELECT * FROM Users WHERE email = ?";
             $stmt = $this->db->prepare($query);
@@ -58,13 +65,12 @@ class UserModel {
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
             // Verifica a senha
-    if ($user && $password === $user['password']) {
-        return $user;
-    }
+            if ($user && $password === $user['password']) {
+                return $user;
+            }
         } catch (PDOException $e) {
             error_log("Erro ao fazer login: " . $e->getMessage());
         }
         return false; // Falha no login
     }
 }
-?>

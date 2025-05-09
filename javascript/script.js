@@ -103,7 +103,7 @@ async function validacaoFinal(event) {
         formRegister.reset(); // Limpa o formulário
         window.location.href = "";
       } else {
-        alert(data.error); // Mensagem de erro
+        alert(data.error || "Erro desconhecido"); // Mensagem de erro
       }
     } catch (error) {
       console.error("Erro:", error);
