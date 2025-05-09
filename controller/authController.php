@@ -58,7 +58,7 @@ class AuthControllerClient
                 $_SESSION['user'] = $user;
                 $token = bin2hex(random_bytes(32));
                 $_SESSION['token'] = $token;
-                header('Location: /dashboard');
+                header('Location: ../view/userCalledsPage.php');
             } else {
                 echo "Credenciais inválidas!";
             }
