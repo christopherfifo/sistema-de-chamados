@@ -53,7 +53,6 @@ function validateField(index) {
 }
 
 
-
 //! local storege
 
 document.addEventListener("DOMContentLoaded", function () {
