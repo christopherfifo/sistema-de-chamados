@@ -164,15 +164,15 @@ class CalledTechnicians
 }
 
 // Roteamento básico usando POST
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
-    $authController = new CalledTechnicians();
-    $action = $_POST['action'];
+// if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
+//     $authController = new CalledTechnicians();
+//     $action = $_POST['action'];
 
-    if (method_exists($authController, $action)) {
-        $authController->$action();
-    } else {
-        echo "Ação inválida!";
-    }
-} else {
-    echo "Nenhuma ação especificada ou método inválido!";
-}
+//     if (method_exists($authController, $action)) {
+//         $authController->$action();
+//     } else {
+//         echo "Ação inválida!";
+//     }
+// } else {
+//     echo "Nenhuma ação especificada ou método inválido!";
+// }

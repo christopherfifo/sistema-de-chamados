@@ -44,6 +44,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['acceptCalled'])) {
         echo "<p class='text-red-500 mt-5'>Erro: dados do técnico não encontrados.</p>";
     }
 }
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['createCalled'])) {
+    $idUser = $_POST['idUser'];
+    $codeCalled = $_POST['codeCalled'];
+    $description = $_POST['description'];
+
+    $techniciansCalled = new CalledTechnicians();
+    if ($techniciansCalled->createCalled($idUser, $codeCalled, $description)) {
+        echo "<script>alert('Chamado criado com sucesso!'); window.location.href='chamados.php';</script>";
+        exit;
+    } else {
+        echo "<p class='text-red-500 mt-5'>Erro ao criar o chamado.</p>";
+    }
+}
 ?>
 
 <body>
@@ -196,9 +210,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['acceptCalled'])) {
                     }
                     ?>
                 </section>
-            <?php } ?>
+            </section>
+        <?php } ?>
+        <section id="criar_chamado" class="w-full flex flex-col items-center mt-10">
+            <h2 class="text-2xl mb-4">Criar Novo Chamado</h2>
+            <form method="POST" action="" class="w-3/4 bg-white p-6 rounded shadow">
+                <label for="idUser" class="block mb-2">ID do Usuário:</label>
+                <input type="number" name="idUser" id="idUser" required class="border border-gray-300 p-2 rounded w-full mb-4">
 
-            </main>
+                <label for="codeCalled" class="block mb-2">Código do Chamado:</label>
+                <input type="text" name="codeCalled" id="codeCalled" required class="border border-gray-300 p-2 rounded w-full mb-4">
+
+                <label for="description" class="block mb-2">Descrição:</label>
+                <textarea name="description" id="description" rows="4" required class="border border-gray-300 p-2 rounded w-full mb-4"></textarea>
+
+                <button type="submit" name="createCalled" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Criar Chamado</button>
+            </form>
+        </section>
+
+        </main>
 </body>
 
 </html>
