@@ -1,0 +1,6 @@
+Dupla:
+Christopher Willians Silva Couto - GU3054047
+Gabriel Vitor Grossi Lourenço - GU3054446
+
+Link do repositório no Github:
+https://github.com/christopherfifo/sistema-de-chamados
