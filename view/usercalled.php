@@ -9,8 +9,6 @@ $cpf = $_SESSION['user']['cpf'] ?? null;
 $email = $_SESSION['user']['email'] ?? null;
 $telephone = $_SESSION['user']['telephone'] ?? null;
 $password = $_SESSION['user']['password'] ?? null;
-$tipo = $_SESSION['user']['tipo'] ?? null;
-$estatus = $_SESSION['user']['estatus'] ?? "active";
 
 $chamadosModel = new userAuthCalled();
 $result = null;
