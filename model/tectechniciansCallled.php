@@ -61,8 +61,7 @@ class TechniciansCalled
     {
         try {
             $query = "SELECT 
-                c.id AS called_id, 
-                c.code_called, 
+                c.id AS called_id,  
                 c.description AS called_description, 
                 c.estatus AS called_status, 
                 ct.id AS detail_id, 
@@ -127,13 +126,13 @@ class TechniciansCalled
     }
 
     //criar um chamado
-    public function createCalled($idUser, $codeCalled, $description, $estatus = "active")
+    public function createCalled($idUser, $description, $estatus = "active")
     {
         try {
-            $query = "INSERT INTO Calleds (id_user, code_called, description, estatus) 
-                      VALUES (?, ?, ?, ?)";
+            $query = "INSERT INTO Calleds (id_user, description, estatus) 
+                      VALUES (?, ?, ?)";
             $stmt = $this->db->prepare($query);
-            $stmt->execute([$idUser, $codeCalled, $description, $estatus]);
+            $stmt->execute([$idUser, $description, $estatus]);
             return true; // Chamado criado com sucesso
         } catch (PDOException $e) {
             error_log("Erro ao criar chamado: " . $e->getMessage());

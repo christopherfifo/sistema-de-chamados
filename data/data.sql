@@ -32,7 +32,6 @@ CREATE TABLE IF NOT EXISTS Technicians(
 CREATE TABLE IF NOT EXISTS Calleds(
     id INT AUTO_INCREMENT primary key,
     id_user INT NOT NULL,
-    code_called INT NOT NULL UNIQUE,
     description VARCHAR(255) NOT NULL,
     estatus VARCHAR(255) NOT NULL DEFAULT 'active',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -67,10 +66,10 @@ INSERT INTO Technicians (name, cpf, matricula, email, telephone, password) VALUE
 ('João', '32345678902', '123458', 'joao.tech@gmail.com', '11987654323', '123456');
 
 -- 3. Inserir chamados com IDs de usuários existentes
-INSERT INTO Calleds (id_user, code_called, description) VALUES
-(1, 123456, 'Teste de chamado'),
-(2, 654321, 'Teste de chamado 2'),
-(3, 789012, 'Teste de chamado 3');
+INSERT INTO Calleds (id_user, description) VALUES
+(1, 'Teste de chamado'),
+(2, 'Teste de chamado 2'),
+(3, 'Teste de chamado 3');
 
 -- 4. Inserir relacionamento técnico/chamado
 INSERT INTO Calleds_technicians (id_called, id_technician, matricula_technician, description) VALUES
@@ -80,3 +79,5 @@ INSERT INTO Calleds_technicians (id_called, id_technician, matricula_technician,
 
 select * from Users;
 select * from Technicians;
+
+drop DATABASE technical_enterprise;

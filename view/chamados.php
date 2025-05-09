@@ -47,11 +47,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['acceptCalled'])) {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['createCalled'])) {
     $idUser = $_POST['idUser'];
-    $codeCalled = $_POST['codeCalled'];
     $description = $_POST['description'];
 
     $techniciansCalled = new CalledTechnicians();
-    if ($techniciansCalled->createCalled($idUser, $codeCalled, $description)) {
+    if ($techniciansCalled->createCalled($idUser, $description)) {
         echo "<script>alert('Chamado criado com sucesso!'); window.location.href='chamados.php';</script>";
         exit;
     } else {
@@ -87,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['createCalled'])) {
                             foreach ($calleds as $called) {
                                 echo "<tr>";
                                 echo "<td class='text-center'>" . htmlspecialchars($called['id']) . "</td>";
-                                echo "<td class='text-center'>" . htmlspecialchars($called['code_called']) . "</td>";
+                               
                                 echo "<td class='text-center'>" . htmlspecialchars($called['description']) . "</td>";
                                 echo "<td class='text-center'>" . htmlspecialchars($called['estatus']) . "</td>";
                                 echo "<td class='text-center'>";
@@ -127,7 +126,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['createCalled'])) {
                     if ($details) {
                         echo "<div class='w-3/4 mx-auto mt-5'>";
                         echo "<p><strong>ID do Chamado:</strong> " . htmlspecialchars($details['called_id']) . "</p>";
-                        echo "<p><strong>Código do Chamado:</strong> " . htmlspecialchars($details['code_called']) . "</p>";
                         echo "<p><strong>Descrição do Chamado:</strong> " . htmlspecialchars($details['called_description']) . "</p>";
                         echo "<p><strong>Status do Chamado:</strong> " . htmlspecialchars($details['called_status']) . "</p>";
                         echo "<br>";
@@ -217,9 +215,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['createCalled'])) {
             <form method="POST" action="" class="w-3/4 bg-white p-6 rounded shadow">
                 <label for="idUser" class="block mb-2">ID do Usuário:</label>
                 <input type="number" name="idUser" id="idUser" required class="border border-gray-300 p-2 rounded w-full mb-4">
-
-                <label for="codeCalled" class="block mb-2">Código do Chamado:</label>
-                <input type="text" name="codeCalled" id="codeCalled" required class="border border-gray-300 p-2 rounded w-full mb-4">
 
                 <label for="description" class="block mb-2">Descrição:</label>
                 <textarea name="description" id="description" rows="4" required class="border border-gray-300 p-2 rounded w-full mb-4"></textarea>

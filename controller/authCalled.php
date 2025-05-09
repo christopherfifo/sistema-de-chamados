@@ -111,7 +111,7 @@ class CalledTechnicians
         return $calleds;
     }
 
-    public function createCalled($idUser, $codeCalled, $description, $estatus = "active")
+    public function createCalled($idUser, $description, $estatus = "active")
     {
         if (!$this->isAuthenticated()) {
             echo "Acesso negado! Técnico não autenticado.";
@@ -119,7 +119,7 @@ class CalledTechnicians
         }
 
         $calledTechniciansModel = new TechniciansCalled();
-        if ($calledTechniciansModel->createCalled($idUser, $codeCalled, $description, $estatus)) {
+        if ($calledTechniciansModel->createCalled($idUser, $description, $estatus)) {
             echo "Chamado criado com sucesso!";
             return true;
         } else {
