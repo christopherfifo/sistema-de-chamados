@@ -28,10 +28,10 @@ const passwordInput = document.getElementById("senha_entrar"); // Campo de senha
 
 // Funções de validação para registro
 const validators = [
-  (value) => value.length >= 3 || "O nome deve ter pelo menos 3 caracteres.",
-  (value) => emailRegex.test(value) || "Email inválido.",
-  (value) =>
-    value.length >= 11 || "O número deve ter pelo menos 11 caracteres.",
+  (value) => value.length >= 3 || "O nome deve ter pelo menos 3 caracteres.", // Nome
+  (value) => emailRegex.test(value) || "Email inválido.", // Email
+  (value) => value.length >= 11 || "O número deve ter pelo menos 11 caracteres.", // Telefone
+  (value) => /^\d{11}$/.test(value) || "O CPF deve conter exatamente 11 dígitos numéricos.", // CPF
   (value) => {
     if (value.length < 8) return "A senha deve ter pelo menos 8 caracteres.";
     if (!/[A-Z]/.test(value))
@@ -39,12 +39,12 @@ const validators = [
     if (!/[!@#$%^&*(),.?":{}|<>]/.test(value))
       return "A senha deve ter pelo menos um caractere especial.";
     return true;
-  },
+  }, // Senha
   (value, campos) => {
     if (value === "") return "Campo Obrigatório";
-    if (value !== campos[3].value) return "As senhas não coincidem.";
+    if (value !== campos[4].value) return "As senhas não coincidem."; // Comparação com o campo de senha
     return true;
-  },
+  }, // Confirmação de senha
 ];
 
 // Funções de manipulação de erros
