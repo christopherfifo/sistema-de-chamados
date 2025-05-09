@@ -56,53 +56,6 @@ function validateField(index) {
 
 
 
-// Validação de login
-async function validacaoLogin(event) {
-  event.preventDefault(); // Impede o comportamento padrão do botão
-
-  const formData = new FormData(formLogin); // Captura dados do formLogin
-
-  // Verifique se o FormData não está vazio
-  if (
-    formData.get("accessInput") === "" ||
-    formData.get("senha_entrar") === ""
-  ) {
-    alert("Por favor, preencha todos os campos.");
-    return;
-  }
-
-  try {
-    const response = await fetch(
-      "http://localhost/sistema-de-chamados/controller/authController.php",
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
-
-    const data = await response.json();
-    if (data.success) {
-      alert(data.success); // Mensagem de sucesso
-
-      // Salva o token no localStorage
-      localStorage.setItem("authToken", data.token);
-
-      // Redirecionar ou realizar outra ação após o login
-      window.location.href = "";
-    } else {
-      alert(data.error); // Mensagem de erro
-    }
-  } catch (error) {
-    console.error("Erro:", error);
-    alert("Erro ao entrar. Tente novamente.");
-  }
-}
-
-// Adiciona o ouvinte de eventos para o botão de login
-validarLogin.addEventListener("click", validacaoLogin);
-
-
-
 //! local storege
 
 document.addEventListener("DOMContentLoaded", function () {

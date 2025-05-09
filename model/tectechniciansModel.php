@@ -16,7 +16,7 @@ class TectechniciansModel
     {
         try {
             // Prepara a consulta SQL
-            $stmt = $this->db->prepare("SELECT * FROM Tectechnicians WHERE matricula = :matricula");
+            $stmt = $this->db->prepare("SELECT * FROM Technicians WHERE matricula = :matricula");
             $stmt->bindParam(':matricula', $matricula, PDO::PARAM_STR);
             $stmt->execute();
 
