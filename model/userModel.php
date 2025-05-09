@@ -39,7 +39,7 @@ class UserModel {
 
     public function register($name, $cpf, $email, $telephone, $password) {
         try {
-            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+            $hashedPassword = $password;
             $query = "INSERT INTO Users (name, cpf, email, telephone, password) VALUES (?, ?, ?, ?, ?)";
             $stmt = $this->db->prepare($query);
             $stmt->execute([$name, $cpf, $email, $telephone, $hashedPassword]);
@@ -58,9 +58,9 @@ class UserModel {
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
             // Verifica a senha
-            if ($user && password_verify($password, $user['password'])) {
-                return $user; // Retorna dados do usuário
-            }
+    if ($user && $password === $user['password']) {
+        return $user;
+    }
         } catch (PDOException $e) {
             error_log("Erro ao fazer login: " . $e->getMessage());
         }
