@@ -2,15 +2,18 @@
 
 require_once '../model/tectechniciansCallled.php';
 
-class CalledTechnicians {
+class CalledTechnicians
+{
 
     // Verifica se o técnico está autenticado
-    private function isAuthenticated() {
+    private function isAuthenticated()
+    {
         session_start();
         return isset($_SESSION['user']['matricula']) && isset($_SESSION['token']);
     }
 
-    public function Detail($idCalled, $idTechnician, $matriculaTechnician, $description) {
+    public function Detail($idCalled, $idTechnician, $matriculaTechnician, $description)
+    {
         if (!$this->isAuthenticated() || $_SESSION['user']['matricula'] !== $matriculaTechnician) {
             echo "Acesso negado! Técnico não autenticado.";
             return false;
@@ -26,7 +29,8 @@ class CalledTechnicians {
         }
     }
 
-    public function Status($idCalled, $newStatus) {
+    public function Status($idCalled, $newStatus)
+    {
         if (!$this->isAuthenticated()) {
             echo "Acesso negado! Técnico não autenticado.";
             return false;
@@ -42,7 +46,8 @@ class CalledTechnicians {
         }
     }
 
-    public function UpdateDetailTec($idCalled, $idTechnician, $matriculaTechnician, $description) {
+    public function UpdateDetailTec($idCalled, $idTechnician, $matriculaTechnician, $description)
+    {
         if (!$this->isAuthenticated() || $_SESSION['user']['matricula'] !== $matriculaTechnician) {
             echo "Acesso negado! Técnico não autenticado.";
             return false;
@@ -58,7 +63,8 @@ class CalledTechnicians {
         }
     }
 
-    public function tecGetDetails($idCalled) {
+    public function tecGetDetails($idCalled)
+    {
         if (!$this->isAuthenticated()) {
             echo "Acesso negado! Técnico não autenticado.";
             return false;
@@ -69,7 +75,8 @@ class CalledTechnicians {
         return $details;
     }
 
-    public function listCalledsByUser($idUser) {
+    public function listCalledsByUser($idUser)
+    {
         if (!$this->isAuthenticated()) {
             echo "Acesso negado! Técnico não autenticado.";
             return false;
@@ -80,7 +87,8 @@ class CalledTechnicians {
         return $calleds;
     }
 
-    public function listCalledsByTechnician($idTechnician) {
+    public function listCalledsByTechnician($idTechnician)
+    {
         if (!$this->isAuthenticated()) {
             echo "Acesso negado! Técnico não autenticado.";
             return false;
@@ -91,7 +99,20 @@ class CalledTechnicians {
         return $calleds;
     }
 
-    public function createCalled($idUser, $codeCalled, $description, $estatus = "active") {
+    public function listAllCalleds()
+    {
+        if (!$this->isAuthenticated()) {
+            echo "Acesso negado! Técnico não autenticado.";
+            return false;
+        }
+
+        $calledTechniciansModel = new TechniciansCalled();
+        $calleds = $calledTechniciansModel->listAllCalleds();
+        return $calleds;
+    }
+
+    public function createCalled($idUser, $codeCalled, $description, $estatus = "active")
+    {
         if (!$this->isAuthenticated()) {
             echo "Acesso negado! Técnico não autenticado.";
             return false;
@@ -107,7 +128,8 @@ class CalledTechnicians {
         }
     }
 
-    public function deleteCalled($idCalled) {
+    public function deleteCalled($idCalled)
+    {
         if (!$this->isAuthenticated()) {
             echo "Acesso negado! Técnico não autenticado.";
             return false;
@@ -123,14 +145,15 @@ class CalledTechnicians {
         }
     }
 
-    public function acceptCalled($idCalled, $idTechnician) {
+    public function acceptCalled($idCalled, $idTechnician, $matriculaTechnician)
+    {
         if (!$this->isAuthenticated()) {
             echo "Acesso negado! Técnico não autenticado.";
             return false;
         }
 
         $calledTechniciansModel = new TechniciansCalled();
-        if ($calledTechniciansModel->acceptCalled($idCalled, $idTechnician)) {
+        if ($calledTechniciansModel->acceptCalled($idCalled, $idTechnician, $matriculaTechnician)) {
             echo "Chamado aceito com sucesso!";
             return true;
         } else {
@@ -153,4 +176,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 } else {
     echo "Nenhuma ação especificada ou método inválido!";
 }
-?>

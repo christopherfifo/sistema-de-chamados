@@ -1,5 +1,6 @@
 <?php require_once '../model/tectechniciansCallled.php'; ?>
 <?php require_once '../model/userCalled.php'; ?>
+<?php require_once '../controller/authCalled.php'; ?>
 
 
 <!DOCTYPE html>
@@ -16,7 +17,7 @@
 // Deletar chamado
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['deleteCalledId'])) {
     $id = $_POST['deleteCalledId'];
-    $techniciansCalled = new TechniciansCalled();
+    $techniciansCalled = new CalledTechnicians();
     if ($techniciansCalled->deleteCalled($id)) {
         echo "<script>alert('Chamado deletado com sucesso!'); window.location.href='chamados.php';</script>";
         exit;
@@ -24,8 +25,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['deleteCalledId'])) {
         echo "<p class='text-red-500 mt-5'>Erro ao deletar o chamado.</p>";
     }
 }
-
-session_start();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['acceptCalled'])) {
     $idCalled = $_POST['acceptCalledId'] ?? null;
@@ -35,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['acceptCalled'])) {
     $matriculaTechnician = $user['matricula'] ?? null;
 
     if ($idCalled && $idTechnician && $matriculaTechnician) {
-        $techniciansCalled = new TechniciansCalled();
+        $techniciansCalled = new CalledTechnicians();
         if ($techniciansCalled->acceptCalled($idCalled, $idTechnician, $matriculaTechnician)) {
             echo "<p class='text-green-500 mt-5'>Chamado aceito com sucesso!</p>";
         } else {
@@ -51,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['acceptCalled'])) {
     <header>
         <h1 class="text-3xl flex justify-center my-5 font-semibold">Sistema de Chamados</h1>
     </header>
-    <section class="w-full">
+    <section class="w-full p-5">
         <section id="chamados" class="w-full flex flex-row">
             <section id="listagem" class="w-3/5 flex flex-col items-center mt-10">
                 <h2 class="text-2xl flex justify-center">Listagem de Chamados</h2>
@@ -67,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['acceptCalled'])) {
                     </thead>
                     <tbody>
                         <?php
-                        $techniciansCalled = new TechniciansCalled();
+                        $techniciansCalled = new CalledTechnicians();
                         $calleds = $techniciansCalled->listAllCalleds();
 
                         if ($calleds) {
@@ -93,7 +92,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['acceptCalled'])) {
                     </tbody>
                     <tfoot>
                         <tr>
-                            <td colspan="5" class="text-end font-semibold pt-5">Total de Chamados: <?php echo count($calleds); ?></td>
+                            <td colspan="5" class="text-end font-semibold pt-5">Total de Chamados: <?php
+                                                                                                    if (isset($calleds) && is_array($calleds)) {
+                                                                                                        echo count($calleds);
+                                                                                                    } else {
+                                                                                                        echo 0;
+                                                                                                    } ?></td>
                         </tr>
                     </tfoot>
                 </table>
@@ -156,8 +160,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['acceptCalled'])) {
                         $idCalled = $_POST['idCalled'];
                         $newStatus = $_POST['status'];
 
-                        $techniciansCalled = new TechniciansCalled();
-                        if ($techniciansCalled->updateStatus($idCalled, $newStatus)) {
+                        $techniciansCalled = new CalledTechnicians();
+                        if ($techniciansCalled->Status($idCalled, $newStatus)) {
                             echo "<p class='text-green-500 mt-5'>Status atualizado com sucesso!</p>";
                         } else {
                             echo "<p class='text-red-500 mt-5'>Erro ao atualizar o status do chamado.</p>";
@@ -183,8 +187,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['acceptCalled'])) {
                         $idTechnician = $_POST['idTechnician'];
                         $matriculaTechnician = $_POST['matriculaTechnician'];
 
-                        $techniciansCalled = new TechniciansCalled();
-                        if ($techniciansCalled->updateDetail($idCalled, $idTechnician, $matriculaTechnician, $description)) {
+                        $techniciansCalled = new CalledTechnicians();
+                        if ($techniciansCalled->UpdateDetailTec($idCalled, $idTechnician, $matriculaTechnician, $description)) {
                             echo "<p class='text-green-500 mt-5'>Detalhe atualizado com sucesso!</p>";
                         } else {
                             echo "<p class='text-red-500 mt-5'>Erro ao atualizar o detalhe do chamado.</p>";

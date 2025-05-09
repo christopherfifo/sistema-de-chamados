@@ -171,32 +171,6 @@ class TechniciansCalled
     }
 
     // aceitar um chamado
-    /*
-CREATE TABLE IF NOT EXISTS Calleds(
-    id INT AUTO_INCREMENT primary key,
-    id_user INT NOT NULL,
-    code_called INT NOT NULL UNIQUE,
-    description VARCHAR(255) NOT NULL,
-    estatus VARCHAR(255) NOT NULL DEFAULT 'active',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (id_user) REFERENCES Users(id) ON DELETE CASCADE
-);
-
-CREATE TABLE IF NOT EXISTS Calleds_technicians(
-    id INT AUTO_INCREMENT primary key,
-    id_called INT NOT NULL,
-    id_technician INT NOT NULL,
-    matricula_technician VARCHAR(255) NOT NULL,
-    description VARCHAR(255) NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (id_called) REFERENCES Calleds(id) ON DELETE CASCADE,
-    FOREIGN KEY (id_technician) REFERENCES Technicians(id) ON DELETE CASCADE
-);
-
-    */
-    // criar entrada na tabela calleds_technicians
     public function acceptCalled($idCalled, $idTechnician, $matriculaTechnician)
     {
         try {
