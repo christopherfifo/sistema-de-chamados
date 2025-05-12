@@ -8,7 +8,9 @@ class CalledTechnicians
     // Verifica se o técnico está autenticado
     private function isAuthenticated()
     {
-        session_start();
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
         return isset($_SESSION['user']['matricula']) && isset($_SESSION['token']);
     }
 

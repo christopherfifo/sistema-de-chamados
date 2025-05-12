@@ -86,7 +86,7 @@ class userAuthCalled {
             return false;
         }
 
-        if ($status !== "CANCELADO") {
+        if ($status !== "Fechado") {
             echo "Status inválido para cancelamento!";
             return false;
         }

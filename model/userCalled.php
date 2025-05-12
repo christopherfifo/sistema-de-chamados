@@ -94,7 +94,8 @@ public function listCalleds($id_user)
     // cancela um chamado
     public function cancelCalled($idCalled, $status)
     {
-        if ($status !== "CANCELADO") {
+
+        if ($status !== "Fechado") {
             return false; // Retorna false se o status não for CANCELADO
         }
 

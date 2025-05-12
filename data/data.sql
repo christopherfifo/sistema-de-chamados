@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS Calleds(
     id_user INT NOT NULL,
     code_called INT NOT NULL UNIQUE,
     description VARCHAR(255) NOT NULL,
-    estatus VARCHAR(255) NOT NULL DEFAULT 'active',
+    estatus VARCHAR(255) NOT NULL DEFAULT 'Aberto',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (id_user) REFERENCES Users(id) ON DELETE CASCADE
@@ -80,3 +80,7 @@ INSERT INTO Calleds_technicians (id_called, id_technician, matricula_technician,
 
 select * from Users;
 select * from Technicians;
+
+select * from Calleds;
+
+DROP DATABASE technical_enterprise;

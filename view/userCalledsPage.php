@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif (isset($_POST['action']) && $_POST['action'] === 'deletar' && isset($_POST['id']) && !empty($_POST['id'])) {
 
         $id_chamado = $_POST['id'];
-        $status = "CANCELADO";
+        $status = "Fechado";
         $userCalled = new userAuthCalled();
         $result = $userCalled->cancelCalled($id_chamado, $status);
         if ($result) {
@@ -47,6 +47,7 @@ switch ($action) {
             $called = $userCalled->getCalled($id_chamado);
             if ($called) {
                 $descricao = $called['description'];
+                $status = $called['estatus'];
             } else {
                 echo "Erro ao obter chamado!";
             }
@@ -109,18 +110,26 @@ switch ($action) {
       <h4 class="text-lg font-semibold">Resultado:</h4>
       <?php if (!empty($descricao)): ?>
       <div class="flex justify-between items-center bg-white dark:bg-gray-800 p-3 rounded-xl">
-        <div>
-          <p><strong>ID:</strong> <?php echo htmlspecialchars($id_chamado); ?></p>
-          <p><strong>Descrição:</strong> <?php echo htmlspecialchars($descricao); ?></p>
-        </div>
-        <form method="POST">
-          <input type="hidden" name="id_chamado" value="<?php echo htmlspecialchars($id_chamado); ?>">
-          <input type="hidden" name="action" value="deletar" />
-          <button type="submit" class="text-red-600 hover:text-red-800 transition font-bold">
-            <i class="fas fa-trash"></i> Deletar
-          </button>
-        </form>
-        <?php endif; ?>
+      <div>
+        <p><strong>ID:</strong> <?php echo htmlspecialchars($id_chamado); ?></p>
+        <p><strong>Descrição:</strong> <?php echo htmlspecialchars($descricao); ?></p>
+        <p><strong>Status:</strong> 
+        <span class="<?php 
+          echo $status === 'Fechado' ? 'text-red-600' : 
+             ($status === 'Aberto' ? 'text-green-600' : 
+             ($status === 'Andamento' ? 'text-yellow-600' : 'text-gray-600')); ?>">
+          <?php echo htmlspecialchars($status); ?>
+        </span>
+        </p>
+      </div>
+      <form method="POST">
+        <input type="hidden" name="id_chamado" value="<?php echo htmlspecialchars($id_chamado); ?>">
+        <input type="hidden" name="action" value="deletar" />
+        <button type="submit" class="text-red-600 hover:text-red-800 transition font-bold">
+        <i class="fas fa-trash"></i> Deletar
+        </button>
+      </form>
+      <?php endif; ?>
       </div>
     </div>
 
@@ -137,23 +146,31 @@ switch ($action) {
         </form>
     </div>
     <?php if (!empty($calleds) && is_array($calleds)): ?>
-        <?php foreach ($calleds as $called): ?>
-            <div class="flex justify-between items-center bg-gray-100 dark:bg-gray-700 p-3 rounded-xl">
-                <div>
-                    <p><strong>ID:</strong> <?php echo htmlspecialchars($called['id']); ?></p>
-                    <p><strong>Descrição:</strong> <?php echo htmlspecialchars($called['description']); ?></p>
-                </div>
-                <form method="POST">
-                    <input type="hidden" name="id" value="<?php echo htmlspecialchars($called['id']); ?>">
-                    <input type="hidden" name="action" value="deletar" />
-                    <button type="submit" class="text-red-600 hover:text-red-800 transition font-bold">
-                        <i class="fas fa-trash"></i> Deletar
-                    </button>
-                </form>
-            </div>
-        <?php endforeach; ?>
+      <?php foreach ($calleds as $called): ?>
+        <div class="flex justify-between items-center bg-gray-100 dark:bg-gray-700 p-3 rounded-xl">
+          <div>
+            <p><strong>ID:</strong> <?php echo htmlspecialchars($called['id']); ?></p>
+            <p><strong>Descrição:</strong> <?php echo htmlspecialchars($called['description']); ?></p>
+            <p><strong>Status:</strong> 
+            <span class="<?php 
+              echo $called['estatus'] === 'Fechado' ? 'text-red-600' : 
+                 ($called['estatus'] === 'Aberto' ? 'text-green-600' : 
+                 ($called['estatus'] === 'Andamento' ? 'text-yellow-600' : 'text-gray-600')); ?>">
+              <?php echo htmlspecialchars($called['estatus']); ?>
+            </span>
+            </p>
+          </div>
+          <form method="POST">
+            <input type="hidden" name="id" value="<?php echo htmlspecialchars($called['id']); ?>">
+            <input type="hidden" name="action" value="deletar" />
+            <button type="submit" class="text-red-600 hover:text-red-800 transition font-bold">
+              <i class="fas fa-trash"></i> Deletar
+            </button>
+          </form>
+        </div>
+      <?php endforeach; ?>
     <?php else: ?>
-        <p class="text-center text-gray-500 dark:text-gray-400">Nenhum chamado encontrado.</p>
+      <p class="text-center text-gray-500 dark:text-gray-400">Nenhum chamado encontrado.</p>
     <?php endif; ?>
 
 
