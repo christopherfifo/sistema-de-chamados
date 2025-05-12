@@ -11,10 +11,10 @@ class ResolveConflitos
         $this->conflitos = new Conflitos();
     }
 
-    public function getNovoCodeCalled($idCalled)
+    public function getNovoCodeCalled()
     {
         // Obtém os códigos existentes
-        $existingCodes = $this->conflitos->getConflitos($idCalled);
+        $existingCodes = $this->conflitos->getConflitos();
 
         // Extrai os valores de code_called em um array simples
         $codes = array_column($existingCodes, 'code_called');

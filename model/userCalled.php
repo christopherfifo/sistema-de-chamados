@@ -1,6 +1,7 @@
 <?php
 
 require_once '../factory/conexao.php';
+require_once '../factory/resolveConflitos.php';
 
 class userCalled
 {
@@ -14,9 +15,12 @@ class userCalled
 
     public function createCalled($id_user, $description)
     {
-        $sql = "INSERT INTO Calleds (id_user, description) VALUES (:id_user, :description)";
+        $teste = new ResolveConflitos();
+        $code_called = $teste->getNovoCodeCalled();
+        $sql = "INSERT INTO Calleds (id_user, code_called, description) VALUES (:id_user, :code_called, :description)";
         $stmt = $this->db->prepare($sql);
         $stmt->bindParam(':id_user', $id_user, PDO::PARAM_INT);
+        $stmt->bindParam(':code_called', $code_called, PDO::PARAM_INT);
         $stmt->bindParam(':description', $description, PDO::PARAM_STR);
         return $stmt->execute();
     }

@@ -11,7 +11,7 @@ class Conflitos
         $this->conn = $caminho->getConn(); // Obtém a conexão PDO corretamente
     }
 
-    public function getConflitos($idCalled)
+    public function getConflitos()
     {
         $sql = "SELECT code_called FROM Calleds";
         $stmt = $this->conn->prepare($sql); // Usa a conexão PDO para preparar a consulta
