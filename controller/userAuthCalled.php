@@ -5,8 +5,11 @@ class userAuthCalled {
 
     // Verifica se o usuário está autenticado
     private function isAuthenticated() {
-        session_start();
-        return isset($_SESSION['user']['email']) && isset($_SESSION['token']);
+       if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+    return isset($_SESSION['user']['email']) && isset($_SESSION['token']);
+    }
+        
     }
 
     // Cria um chamado
@@ -52,17 +55,6 @@ class userAuthCalled {
 
         $userCalledModel = new userCalled();
         $called = $userCalledModel->getCalled($idCalled);
-        if ($called) {
-            // Busca a descrição do chamado, se disponível
-            $description = $userCalledModel->getDescription($idCalled);
-            if ($description) {
-                $called['description'] = $description;
-            }
-            return $called;
-        } else {
-            echo "Erro ao obter chamado!";
-            return false;
-        }
     }
 
     // Lista todos os chamados relacionados ao usuário
@@ -105,17 +97,5 @@ class userAuthCalled {
     }
 }
 
-// Roteamento básico usando POST
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
-    $authController = new userAuthCalled();
-    $action = $_POST['action'];
 
-    if (method_exists($authController, $action)) {
-        $authController->$action();
-    } else {
-        echo "Ação inválida!";
-    }
-} else {
-    echo "Nenhuma ação especificada ou método inválido!";
-}
 ?>
