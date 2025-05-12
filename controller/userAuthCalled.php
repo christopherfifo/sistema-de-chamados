@@ -5,11 +5,10 @@ class userAuthCalled {
 
     // Verifica se o usuário está autenticado
     private function isAuthenticated() {
-       if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-    return isset($_SESSION['user']['email']) && isset($_SESSION['token']);
-    }
-        
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        return isset($_SESSION['user']['email']) && isset($_SESSION['token']);
     }
 
     // Cria um chamado
@@ -46,7 +45,7 @@ class userAuthCalled {
         }
     }
 
-    // Obtém um chamado específico e busca a descrição, se houver
+    // Obtém um chamado específico 
     public function getCalled($idCalled) {
         if (!$this->isAuthenticated()) {
             echo "Acesso negado! Usuário não autenticado.";
@@ -55,6 +54,12 @@ class userAuthCalled {
 
         $userCalledModel = new userCalled();
         $called = $userCalledModel->getCalled($idCalled);
+        if ($called) {
+            return $called;
+        } else {
+            echo "Erro ao obter chamado!";
+            return false;
+        }
     }
 
     // Lista todos os chamados relacionados ao usuário
@@ -96,6 +101,4 @@ class userAuthCalled {
         }
     }
 }
-
-
 ?>

@@ -12,29 +12,9 @@ $email = $_SESSION['user']['email'] ;
 $telephone = $_SESSION['user']['telephone'] ;
 $password = $_SESSION['user']['password'] ;
 
-if (isset($_GET['action']) && !empty($_GET['action'])) {
-    $action = $_GET['action'];
-    $id_chamado = isset($_GET['id_chamado']) ? $_GET['id_chamado'] : '';
 
-switch ($action) {
-        case 'busca':
-            $userCalled = new userAuthCalled();
-            $called = $userCalled->getCalled($id_chamado);
-            if ($called) {
-                $descricao = $called['description'];
-            } else {
-                echo "Erro ao obter chamado!";
-            }
-            break;
-        case 'listar_chamados':
-            $userCalled = new userAuthCalled();
-            $calleds = $userCalled->listCalleds($id_user);
-            break;
-        default:
-            break;
-    }
-    
-} elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['action']) && $_POST['action'] === 'criar' && isset($_POST['descricao']) && !empty($_POST['descricao'])) {
         $descricao = $_POST['descricao'];
         $userCalled = new userAuthCalled();
@@ -56,6 +36,29 @@ switch ($action) {
             echo "Erro ao deletar chamado!";
         }
     }
+    
+}  elseif (isset($_GET['action']) && !empty($_GET['action'])) {
+    $action = $_GET['action'];
+    $id_chamado = isset($_GET['id_chamado']) ? $_GET['id_chamado'] : '';
+
+switch ($action) {
+        case 'busca':
+            $userCalled = new userAuthCalled();
+            $called = $userCalled->getCalled($id_chamado);
+            if ($called) {
+                $descricao = $called['description'];
+            } else {
+                echo "Erro ao obter chamado!";
+            }
+            break;
+        case 'listar_chamados':
+            $userCalled = new userAuthCalled();
+            $calleds = $userCalled->listCalleds($id_user);
+            break;
+        default:
+            break;
+    }
+    
 }
 
 ?>
@@ -124,12 +127,15 @@ switch ($action) {
 
   <!-- Bloco 2: Lista de chamados -->
   <div class="max-w-4xl mx-auto mt-6 bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 space-y-4">
-    <form method="GET">
-      <input type="hidden" name="action" value="listar_chamados">
-    </form>
-
-    <h4 class="text-lg font-semibold mb-2">Lista de Chamados:</h4>
-
+    <div class="flex justify-between items-center mb-4">
+        <h4 class="text-lg font-semibold">Lista de Chamados:</h4>
+        <form method="GET">
+            <input type="hidden" name="action" value="listar_chamados">
+            <button type="submit" class="bg-primary text-white px-6 py-3 rounded-xl hover:bg-[#3ba7a7] transition">
+                Listar Chamados
+            </button>
+        </form>
+    </div>
     <?php if (!empty($calleds) && is_array($calleds)): ?>
         <?php foreach ($calleds as $called): ?>
             <div class="flex justify-between items-center bg-gray-100 dark:bg-gray-700 p-3 rounded-xl">
