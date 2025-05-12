@@ -1,6 +1,6 @@
 <?php
 
-require_once 'model/conflitos.php';
+require_once '../model/conflitos.php';
 
 class ResolveConflitos
 {

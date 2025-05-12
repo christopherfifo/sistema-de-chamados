@@ -1,5 +1,5 @@
 <?php
-require_once 'factory/conexao.php';
+require_once '../factory/conexao.php';
 
 class Conflitos
 {
@@ -7,17 +7,17 @@ class Conflitos
 
     public function __construct()
     {
-        $this->conn = new Conexao();
+        $caminho = new Caminho();
+        $this->conn = $caminho->getConn(); // Obtém a conexão PDO corretamente
     }
 
     public function getConflitos($idCalled)
     {
         $sql = "SELECT code_called FROM Calleds";
-        $stmt = $this->conn->prepare($sql);
+        $stmt = $this->conn->prepare($sql); // Usa a conexão PDO para preparar a consulta
         $stmt->execute();
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
 }
-
 ?>
