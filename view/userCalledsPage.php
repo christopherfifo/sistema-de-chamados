@@ -125,7 +125,7 @@ switch ($action) {
         </p>
       </div>
       <form method="POST">
-        <input type="hidden" name="id_chamado" value="<?php echo htmlspecialchars($id_chamado); ?>">
+        <input type="hidden" name="id" value="<?php echo htmlspecialchars($id_chamado); ?>">
         <input type="hidden" name="action" value="deletar" />
         <button type="submit" class="text-red-600 hover:text-red-800 transition font-bold">
         <i class="fas fa-trash"></i> Deletar

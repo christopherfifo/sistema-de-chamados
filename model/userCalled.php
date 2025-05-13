@@ -71,20 +71,7 @@ class userCalled
 public function listCalleds($id_user)
 {
     try {
-        $query = "SELECT 
-            c.id, 
-            c.code_called, 
-            c.description, 
-            c.estatus, 
-            ct.id, 
-            ct.id_technician, 
-            ct.matricula_technician, 
-            ct.description, 
-            u.name 
-              FROM Calleds c
-              LEFT JOIN Calleds_technicians ct ON c.id = ct.id_called
-              LEFT JOIN Users u ON c.id_user = u.id
-              WHERE c.id_user = ?";
+        $query = "SELECT * FROM Calleds WHERE id_user = ?";
         $stmt = $this->db->prepare($query);
         $stmt->execute([$id_user]);
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -95,18 +82,19 @@ public function listCalleds($id_user)
     }
 }
 
-    // cancela um chamado
+    // Cancela um chamado
     public function cancelCalled($idCalled, $status)
     {
-
-        if ($status !== "Fechado") {
-            return false; // Retorna false se o status não for CANCELADO
+        if ($status !== "Fechado") { // Corrige a verificação do status para "Cancelado"
+            return false; // Retorna false se o status não for "Cancelado"
         }
 
         try {
-            $query = "UPDATE Calleds SET estatus = ? WHERE id = ?";
+            $query = "UPDATE Calleds SET estatus = :status WHERE id = :id";
             $stmt = $this->db->prepare($query);
-            $stmt->execute([$status, $idCalled]); // Corrige a ordem dos parâmetros
+            $stmt->bindParam(':status', $status, PDO::PARAM_STR);
+            $stmt->bindParam(':id', $idCalled, PDO::PARAM_INT);
+            $stmt->execute();
             return $stmt->rowCount() > 0; // Retorna true se a atualização afetar pelo menos uma linha
         } catch (PDOException $e) {
             error_log("Erro ao cancelar chamado: " . $e->getMessage());
