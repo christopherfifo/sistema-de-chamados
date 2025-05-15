@@ -40,10 +40,8 @@ class CalledTechnicians
 
         $calledTechniciansModel = new TechniciansCalled();
         if ($calledTechniciansModel->updateStatus($idCalled, $newStatus)) {
-            echo "Status atualizado com sucesso!";
             return true;
         } else {
-            echo "Erro ao atualizar status!";
             return false;
         }
     }
@@ -57,10 +55,8 @@ class CalledTechnicians
 
         $calledTechniciansModel = new TechniciansCalled();
         if ($calledTechniciansModel->updateDetail($idCalled, $idTechnician, $matriculaTechnician, $description)) {
-            echo "Detalhamento atualizado com sucesso!";
             return true;
         } else {
-            echo "Erro ao atualizar detalhamento!";
             return false;
         }
     }
@@ -156,10 +152,8 @@ class CalledTechnicians
 
         $calledTechniciansModel = new TechniciansCalled();
         if ($calledTechniciansModel->acceptCalled($idCalled, $idTechnician, $matriculaTechnician)) {
-            echo "Chamado aceito com sucesso!";
             return true;
         } else {
-            echo "Erro ao aceitar chamado!";
             return false;
         }
     }

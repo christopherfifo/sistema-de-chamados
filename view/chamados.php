@@ -14,6 +14,11 @@
 </head>
 
 <?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+
 // Deletar chamado
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['deleteCalledId'])) {
     $id = $_POST['deleteCalledId'];
@@ -26,6 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['deleteCalledId'])) {
     }
 }
 
+// Aceitar chamado
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['acceptCalled'])) {
     $idCalled = $_POST['acceptCalledId'] ?? null;
 
@@ -45,6 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['acceptCalled'])) {
     }
 }
 
+// Criar chamado
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['createCalled'])) {
     $idUser = $_POST['idUser'];
     $codeCalled = $_POST['codeCalled'];
@@ -56,6 +63,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['createCalled'])) {
         exit;
     } else {
         echo "<p class='text-red-500 mt-5'>Erro ao criar o chamado.</p>";
+    }
+}
+
+// Atualizar detalhes do chamado
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['updateDetail'])) {
+    $idCalled = $_POST['idCalled'];
+    $description = $_POST['description'];
+    $idTechnician = $_POST['idTechnician'];
+    $matriculaTechnician = $_POST['matriculaTechnician'];
+
+    $techniciansCalled = new CalledTechnicians();
+    if ($techniciansCalled->UpdateDetailTec($idCalled, $idTechnician, $matriculaTechnician, $description)) {
+        echo "<p class='text-green-500 mt-5'>Detalhe atualizado com sucesso!</p>";
+    } else {
+        echo "<p class='text-red-500 mt-5'>Erro ao atualizar o detalhe do chamado.</p>";
+    }
+}
+
+// Atualizar status do chamado
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['updateStatus'])) {
+    $idCalled = $_POST['idCalled'];
+    $newStatus = $_POST['status'];
+
+    $techniciansCalled = new CalledTechnicians();
+    if ($techniciansCalled->Status($idCalled, $newStatus)) {
+        echo "<p class='text-green-500 mt-5'>Status atualizado com sucesso!</p>";
+    } else {
+        echo "<p class='text-red-500 mt-5'>Erro ao atualizar o status do chamado.</p>";
     }
 }
 ?>
@@ -169,19 +204,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['createCalled'])) {
                         </select>
                         <button type="submit" name="updateStatus" class="bg-blue-500 text-white px-4 py-2 rounded">Atualizar Status</button>
                     </form>
-                    <?php
-                    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['updateStatus'])) {
-                        $idCalled = $_POST['idCalled'];
-                        $newStatus = $_POST['status'];
-
-                        $techniciansCalled = new CalledTechnicians();
-                        if ($techniciansCalled->Status($idCalled, $newStatus)) {
-                            echo "<p class='text-green-500 mt-5'>Status atualizado com sucesso!</p>";
-                        } else {
-                            echo "<p class='text-red-500 mt-5'>Erro ao atualizar o status do chamado.</p>";
-                        }
-                    }
-                    ?>
                 </section>
                 <section id="editar_detalhes" class="w-3/5 flex flex-col items-center mt-10">
                     <h2 class="text-2xl flex justify-center">Editar Detalhes do chamado</h2>
@@ -194,21 +216,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['createCalled'])) {
                         <input type="hidden" name="matriculaTechnician" value="<?php echo isset($details['matricula_technician']) ? htmlspecialchars($details['matricula_technician']) : ''; ?>">
                         <button type="submit" name="updateDetail" class="bg-blue-500 text-white px-4 py-2 rounded">Atualizar Detalhe</button>
                     </form>
-                    <?php
-                    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['updateDetail'])) {
-                        $idCalled = $_POST['idCalled'];
-                        $description = $_POST['description'];
-                        $idTechnician = $_POST['idTechnician'];
-                        $matriculaTechnician = $_POST['matriculaTechnician'];
-
-                        $techniciansCalled = new CalledTechnicians();
-                        if ($techniciansCalled->UpdateDetailTec($idCalled, $idTechnician, $matriculaTechnician, $description)) {
-                            echo "<p class='text-green-500 mt-5'>Detalhe atualizado com sucesso!</p>";
-                        } else {
-                            echo "<p class='text-red-500 mt-5'>Erro ao atualizar o detalhe do chamado.</p>";
-                        }
-                    }
-                    ?>
                 </section>
             </section>
         <?php } ?>

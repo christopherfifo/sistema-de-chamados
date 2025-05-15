@@ -52,8 +52,6 @@ CREATE TABLE IF NOT EXISTS Calleds_technicians(
     FOREIGN KEY (id_technician) REFERENCES Technicians(id) ON DELETE CASCADE
 );
 
--- ALTER TABLE Users DROP COLUMN cpf;
-
 -- 1. Inserir usuários
 INSERT INTO Users (name, cpf, email, telephone, password) VALUES
 ('Lucas', '12345678900', 'email@gmail.com', '11987654321', '123456'),
@@ -78,9 +76,9 @@ INSERT INTO Calleds_technicians (id_called, id_technician, matricula_technician,
 (2, 2, '33222', 'Teste de chamado 2'),
 (3, 3, '123458', 'Teste de chamado 3');
 
-select * from Users;
-select * from Technicians;
+-- select * from Users;
+-- select * from Technicians;
 
-select * from Calleds;
+-- select * from Calleds;
 
-DROP DATABASE technical_enterprise;
+-- DROP DATABASE technical_enterprise;

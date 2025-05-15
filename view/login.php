@@ -101,13 +101,10 @@
                     <input type="password" name="password" placeholder="Password" class="inputs_login bg-gray-200 rounded-xl border-none py-3 px-4 my-2 w-full pr-10" id="senha_entrar">
                     <i class="fa-regular fa-eye olhos obj absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer z-10 text-primary dark:text-darkblue"></i>
                 </div>
-                <div class="content w-full h-[50px] flex justify-around items-center">
+                <div class="content w-full h-[50px] flex pl-2">
                     <div class="checkbox flex items-center justify-center">
                         <input type="checkbox" id="rememberCheckbox" name="checkbox" class="w-3 h-3 accent-gray-800">
                         <label for="remember-me" class="text-sm pl-1 select-none">lembre-me</label>
-                    </div>
-                    <div class="pass-link">
-                        <a class="obj text-sm hover:text-primary transition-slow dark:hover:text-darkblue" href="./pages/esqueci.php">Esqueceu a senha?</a>
                     </div>
                 </div>
                 <button type="submit" class="rl-tema obj rounded-2xl border border-primary bg-primary text-white font-bold py-3 px-20 mx-2 my-2 transition-slow hover:tracking-wider active:scale-95 focus:outline-none dark:border-darkblue dark:bg-darkblue" id="vali_login">
