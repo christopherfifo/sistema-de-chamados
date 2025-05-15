@@ -2,14 +2,26 @@
 <?php require_once '../model/userCalled.php'; ?>
 <?php require_once '../controller/authCalled.php'; ?>
 
-
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br" class="dark">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4bb6b7',
+                        darkblue: 'rgb(43, 43, 151)',
+                    }
+                }
+            }
+        }
+    </script>
     <title>Sistema de Chamados</title>
 </head>
 
@@ -19,22 +31,29 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 
+// Pega o ID do chamado atual
+$currentIdParam = isset($_GET['id']) ? '?id=' . $_GET['id'] : '';
+
 // Deletar chamado
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['deleteCalledId'])) {
     $id = $_POST['deleteCalledId'];
     $techniciansCalled = new CalledTechnicians();
     if ($techniciansCalled->deleteCalled($id)) {
-        echo "<script>alert('Chamado deletado com sucesso!'); window.location.href='chamados.php';</script>";
+        $_SESSION['toast'] = ['type' => 'success', 'message' => 'Chamado deletado com sucesso!'];
+        // Se deletou o mesmo que estava aberto, remove ?id
+        $redirect = ($_GET['id'] ?? null) == $id ? '' : $currentIdParam;
+        header("Location: chamados.php$redirect");
         exit;
     } else {
-        echo "<p class='text-red-500 mt-5'>Erro ao deletar o chamado.</p>";
+        $_SESSION['toast'] = ['type' => 'error', 'message' => 'Erro ao deletar o chamado.'];
+        header("Location: chamados.php$currentIdParam");
+        exit;
     }
 }
 
 // Aceitar chamado
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['acceptCalled'])) {
     $idCalled = $_POST['acceptCalledId'] ?? null;
-
     $user = $_SESSION['user'] ?? null;
     $idTechnician = $user['id'] ?? null;
     $matriculaTechnician = $user['matricula'] ?? null;
@@ -42,13 +61,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['acceptCalled'])) {
     if ($idCalled && $idTechnician && $matriculaTechnician) {
         $techniciansCalled = new CalledTechnicians();
         if ($techniciansCalled->acceptCalled($idCalled, $idTechnician, $matriculaTechnician)) {
-            echo "<p class='text-green-500 mt-5'>Chamado aceito com sucesso!</p>";
+            $_SESSION['toast'] = ['type' => 'success', 'message' => 'Chamado aceito com sucesso!'];
         } else {
-            echo "<p class='text-red-500 mt-5'>Erro ao aceitar o chamado.</p>";
+            $_SESSION['toast'] = ['type' => 'error', 'message' => 'Erro ao aceitar o chamado.'];
         }
     } else {
-        echo "<p class='text-red-500 mt-5'>Erro: dados do técnico não encontrados.</p>";
+        $_SESSION['toast'] = ['type' => 'error', 'message' => 'Erro: dados do técnico não encontrados.'];
     }
+    header("Location: chamados.php$currentIdParam");
+    exit;
 }
 
 // Criar chamado
@@ -59,14 +80,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['createCalled'])) {
 
     $techniciansCalled = new CalledTechnicians();
     if ($techniciansCalled->createCalled($idUser, $codeCalled, $description)) {
-        echo "<script>alert('Chamado criado com sucesso!'); window.location.href='chamados.php';</script>";
-        exit;
+        $_SESSION['toast'] = ['type' => 'success', 'message' => 'Chamado criado com sucesso!'];
     } else {
-        echo "<p class='text-red-500 mt-5'>Erro ao criar o chamado.</p>";
+        $_SESSION['toast'] = ['type' => 'error', 'message' => 'Erro ao criar o chamado.'];
     }
+    header("Location: chamados.php$currentIdParam");
+    exit;
 }
 
-// Atualizar detalhes do chamado
+// Atualizar detalhes
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['updateDetail'])) {
     $idCalled = $_POST['idCalled'];
     $description = $_POST['description'];
@@ -75,167 +97,200 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['updateDetail'])) {
 
     $techniciansCalled = new CalledTechnicians();
     if ($techniciansCalled->UpdateDetailTec($idCalled, $idTechnician, $matriculaTechnician, $description)) {
-        echo "<p class='text-green-500 mt-5'>Detalhe atualizado com sucesso!</p>";
+        $_SESSION['toast'] = ['type' => 'success', 'message' => 'Detalhe atualizado com sucesso!'];
     } else {
-        echo "<p class='text-red-500 mt-5'>Erro ao atualizar o detalhe do chamado.</p>";
+        $_SESSION['toast'] = ['type' => 'error', 'message' => 'Erro ao atualizar o detalhe do chamado.'];
     }
+    header("Location: chamados.php$currentIdParam");
+    exit;
 }
 
-// Atualizar status do chamado
+// Atualizar status
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['updateStatus'])) {
     $idCalled = $_POST['idCalled'];
     $newStatus = $_POST['status'];
 
     $techniciansCalled = new CalledTechnicians();
     if ($techniciansCalled->Status($idCalled, $newStatus)) {
-        echo "<p class='text-green-500 mt-5'>Status atualizado com sucesso!</p>";
+        $_SESSION['toast'] = ['type' => 'success', 'message' => 'Status atualizado com sucesso!'];
     } else {
-        echo "<p class='text-red-500 mt-5'>Erro ao atualizar o status do chamado.</p>";
+        $_SESSION['toast'] = ['type' => 'error', 'message' => 'Erro ao atualizar o status do chamado.'];
     }
+    header("Location: chamados.php$currentIdParam");
+    exit;
 }
+
 ?>
 
-<body>
-    <header>
-        <h1 class="text-3xl flex justify-center my-5 font-semibold">Sistema de Chamados</h1>
+<body class="bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-white">
+    <header class="bg-primary text-white py-4 shadow flex flex-row items-center">
+        <nav class="flex mx-5">
+            <a href="./home.php" class="text-white hover:underline">Home</a>
+        </nav>
+
+        <h1 class="text-3xl text-center font-bold flex-1">Sistema de Chamados</h1>
+
+        <button onclick="document.documentElement.classList.toggle('dark')" class="text-sm underline hover:text-gray-200 transition flex items-center mx-5">
+            <i class="fa-solid fa-moon mr-2"></i>
+            Alternar tema
+        </button>
     </header>
-    <section class="w-full p-5">
-        <section id="chamados" class="w-full flex flex-row">
-            <section id="listagem" class="w-3/5 flex flex-col items-center mt-10">
-                <h2 class="text-2xl flex justify-center">Listagem de Chamados</h2>
-                <table class="w-full px-5 mt-5 justify-center [&>td]:text-center">
-                    <thead class="bg-gray-200">
-                        <tr>
-                            <th>ID</th>
-                            <th>Código do Chamado</th>
-                            <th>Descrição</th>
-                            <th>Status</th>
-                            <th>Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        $techniciansCalled = new CalledTechnicians();
-                        $calleds = $techniciansCalled->listAllCalleds();
-
-                        if ($calleds) {
-                            foreach ($calleds as $called) {
-                                echo "<tr>";
-                                echo "<td class='text-center'>" . htmlspecialchars($called['id']) . "</td>";
-                                echo "<td class='text-center'>" . htmlspecialchars($called['code_called']) . "</td>";
-                                echo "<td class='text-center'>" . htmlspecialchars($called['description']) . "</td>";
-                                echo "<td class='text-center'>" . htmlspecialchars($called['estatus']) . "</td>";
-                                echo "<td class='text-center'>";
-                                echo "<a href='?id=" . htmlspecialchars($called['id']) . "' class='text-blue-500 underline'>Ver Detalhes</a> | ";
-                                echo "<form method='POST' action='' style='display:inline'>
-        <input type='hidden' name='deleteCalledId' value='" . htmlspecialchars($called['id']) . "'>
-        <button type='submit' class='text-red-500 underline ml-1' onclick=\"return confirm('Tem certeza que deseja deletar este chamado?')\">Deletar</button>
-      </form>";
-                                echo "</td>";
-                                echo "</tr>";
+    <main class="p-6 flex flex-col gap-10">
+        <section class="flex flex-col lg:flex-row gap-6">
+            <section class="lg:w-3/5">
+                <h2 class="text-xl font-semibold mb-4">Listagem de Chamados</h2>
+                <div class="overflow-x-auto bg-white dark:bg-gray-800 rounded shadow">
+                    <table class="min-w-full text-sm text-center">
+                        <thead class="bg-gray-200 dark:bg-darkblue text-gray-800 dark:text-white">
+                            <tr>
+                                <th class="p-3">ID</th>
+                                <th class="p-3">Código</th>
+                                <th class="p-3">Descrição</th>
+                                <th class="p-3">Status</th>
+                                <th class="p-3">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $techniciansCalled = new CalledTechnicians();
+                            $calleds = $techniciansCalled->listAllCalleds();
+                            if ($calleds) {
+                                foreach ($calleds as $called) {
+                                    echo "<tr class='border-b border-gray-300 dark:border-gray-700'>";
+                                    echo "<td class='p-3'>" . htmlspecialchars($called['id']) . "</td>";
+                                    echo "<td class='p-3'>" . htmlspecialchars($called['code_called']) . "</td>";
+                                    echo "<td class='p-3'>" . htmlspecialchars($called['description']) . "</td>";
+                                    echo "<td class='p-3'>" . htmlspecialchars($called['estatus']) . "</td>";
+                                    echo "<td class='p-3'>";
+                                    echo "<a href='?id=" . htmlspecialchars($called['id']) . "' class='text-primary hover:underline'>Ver</a> | ";
+                                    echo "<form method='POST' action='' class='inline'>
+                                            <input type='hidden' name='deleteCalledId' value='" . htmlspecialchars($called['id']) . "'>
+                                            <button type='submit' class='text-red-500 hover:underline ml-1' onclick=\"return confirm('Tem certeza que deseja deletar este chamado?')\">Deletar</button>
+                                        </form>";
+                                    echo "</td>";
+                                    echo "</tr>";
+                                }
+                            } else {
+                                echo "<tr><td colspan='5' class='p-3'>Nenhum chamado encontrado.</td></tr>";
                             }
-                        } else {
-                            echo "<tr><td colspan='5'>Nenhum chamado encontrado.</td></tr>";
-                        }
-                        ?>
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td colspan="5" class="text-end font-semibold pt-5">Total de Chamados: <?php
-                                                                                                    if (isset($calleds) && is_array($calleds)) {
-                                                                                                        echo count($calleds);
-                                                                                                    } else {
-                                                                                                        echo 0;
-                                                                                                    } ?></td>
-                        </tr>
-                    </tfoot>
-                </table>
+                            ?>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="5" class="text-right p-4 font-semibold">
+                                    Total de Chamados: <?php echo isset($calleds) && is_array($calleds) ? count($calleds) : 0; ?>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
             </section>
-            <section id="detalhes" class="w-2/5 flex flex-col items-center mt-10">
-                <h2 class="text-2xl flex justify-center">Detalhes do Chamado</h2>
-                <?php
-                if (isset($_GET['id'])) {
-                    $idCalled = $_GET['id'];
-                    $userCalled = new userCalled();
-                    $details = $userCalled->getDetailsUSer($idCalled);
 
-                    if ($details) {
-                        echo "<div class='w-3/4 mx-auto mt-5'>";
-                        echo "<p><strong>ID do Chamado:</strong> " . htmlspecialchars($details['called_id']) . "</p>";
-                        echo "<p><strong>Código do Chamado:</strong> " . htmlspecialchars($details['code_called']) . "</p>";
-                        echo "<p><strong>Descrição do Chamado:</strong> " . htmlspecialchars($details['called_description']) . "</p>";
-                        echo "<p><strong>Status do Chamado:</strong> " . htmlspecialchars($details['called_status']) . "</p>";
-                        echo "<br>";
-                        echo "<p><strong>Técnico Responsável:</strong> " . htmlspecialchars($details['matricula_technician']) . "</p>";
-                        echo "<p><strong>Descrição do Detalhe:</strong> " . htmlspecialchars($details['detail_description']) . "</p>";
-                        echo "<p><strong>Nome do Cliente:</strong> " . htmlspecialchars($details['client_name']) . "</p>";
-                        echo "<br>";
-                        $disabled = !empty($details['matricula_technician']);
-                        $disabledAttr = $disabled ? 'disabled' : '';
-                        $buttonClass = $disabled
-                            ? 'bg-gray-400 text-white px-4 py-2 rounded cursor-not-allowed opacity-60'
-                            : 'bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600';
-
-                        echo "<form action='' method='POST' class='mt-4'>
-    <input type='hidden' name='acceptCalledId' value='" . htmlspecialchars($details['called_id']) . "'>
-    <button type='submit' name='acceptCalled' class='" . $buttonClass . "' " . $disabledAttr . ">Aceitar Chamado</button>
-</form>";
-
-                        echo "</div>";
-                    } else {
-                        echo "<p>Nenhum detalhe encontrado para o chamado com ID: " . htmlspecialchars($idCalled) . "</p>";
+            <section class="lg:w-2/5">
+                <h2 class="text-xl font-semibold mb-4">Detalhes do Chamado</h2>
+                <div class="bg-white dark:bg-gray-800 p-4 rounded shadow">
+                    <?php
+                    if (isset($_GET['id'])) {
+                        $idCalled = $_GET['id'];
+                        $userCalled = new userCalled();
+                        $details = $userCalled->getDetailsUSer($idCalled);
+                        if ($details) {
+                            echo "<p><strong>ID:</strong> {$details['called_id']}</p>";
+                            echo "<p><strong>Código:</strong> {$details['code_called']}</p>";
+                            echo "<p><strong>Descrição:</strong> {$details['called_description']}</p>";
+                            echo "<p><strong>Status:</strong> {$details['called_status']}</p><br>";
+                            echo "<p><strong>Técnico:</strong> {$details['matricula_technician']}</p>";
+                            echo "<p><strong>Detalhe:</strong> {$details['detail_description']}</p>";
+                            echo "<p><strong>Cliente:</strong> {$details['client_name']}</p><br>";
+                            $disabled = !empty($details['matricula_technician']);
+                            $disabledAttr = $disabled ? 'disabled' : '';
+                            $btnClass = $disabled
+                                ? 'bg-gray-400 text-white cursor-not-allowed opacity-60'
+                                : 'bg-green-500 text-white hover:bg-green-600';
+                            echo "<form method='POST' class='mt-4'>
+        <input type='hidden' name='acceptCalledId' value='" . htmlspecialchars($details['called_id']) . "'>
+        <button type='submit' name='acceptCalled' class='px-4 py-2 rounded " . $btnClass . "' " . $disabledAttr . ">
+            " . ($disabled ? 'Aceito' : 'Aceitar Chamado') . "
+        </button>
+    </form>";
+                        } else {
+                            echo "<p>Nenhum detalhe encontrado.</p>";
+                        }
                     }
-                }
-                ?>
+                    ?>
+                </div>
             </section>
         </section>
-        <?php
-        if (isset($_GET['id'])) { ?>
-            <section id="atualizar" class="w-full flex flex-row">
-                <section id="atualizar_status" class="w-2/5 flex flex-col items-center mt-10">
-                    <h2 class="text-2xl flex justify-center">Atualizar Status do Chamado</h2>
-                    <form action="" method="POST" class="w-3/4 mx-auto mt-5">
-                        <input type="hidden" name="idCalled" value="<?php echo isset($_GET['id']) ? htmlspecialchars($_GET['id']) : ''; ?>">
-                        <label for="status" class="block mb-2">Novo Status:</label>
-                        <select name="status" id="status" class="border border-gray-300 rounded p-2 mb-4 w-full">
+
+        <?php if (isset($_GET['id'])) { ?>
+            <section class="flex flex-col lg:flex-row gap-6">
+                <section class="lg:w-2/5">
+                    <h2 class="text-xl font-semibold mb-4">Atualizar Status</h2>
+                    <form method="POST" class="bg-white dark:bg-gray-800 p-4 rounded shadow">
+                        <input type="hidden" name="idCalled" value="<?php echo htmlspecialchars($_GET['id']); ?>">
+                        <label class="block mb-2">Novo Status:</label>
+                        <select name="status" class="border border-gray-300 dark:border-gray-600 p-2 rounded w-full mb-4 bg-white dark:bg-gray-700 text-black dark:text-white" required>
                             <option value="Aberto">Aberto</option>
                             <option value="Em Andamento">Em Andamento</option>
                             <option value="Fechado">Fechado</option>
                         </select>
-                        <button type="submit" name="updateStatus" class="bg-blue-500 text-white px-4 py-2 rounded">Atualizar Status</button>
+                        <button type="submit" name="updateStatus" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Atualizar</button>
                     </form>
                 </section>
-                <section id="editar_detalhes" class="w-3/5 flex flex-col items-center mt-10">
-                    <h2 class="text-2xl flex justify-center">Editar Detalhes do chamado</h2>
 
-                    <form action="" method="POST" class="w-3/4 mx-auto mt-5">
-                        <input type="hidden" name="idCalled" value="<?php echo isset($_GET['id']) ? htmlspecialchars($_GET['id']) : ''; ?>">
-                        <label for="description" class="block mb-2">Descrição do Detalhe:</label>
-                        <textarea name="description" id="description" rows="4" class="border border-gray-300 rounded p-2 mb-4 w-full"></textarea>
-                        <input type="hidden" name="idTechnician" value="<?php echo isset($details['id_technician']) ? htmlspecialchars($details['id_technician']) : ''; ?>">
-                        <input type="hidden" name="matriculaTechnician" value="<?php echo isset($details['matricula_technician']) ? htmlspecialchars($details['matricula_technician']) : ''; ?>">
-                        <button type="submit" name="updateDetail" class="bg-blue-500 text-white px-4 py-2 rounded">Atualizar Detalhe</button>
+                <section class="lg:w-3/5">
+                    <h2 class="text-xl font-semibold mb-4">Editar Detalhes</h2>
+                    <form method="POST" class="bg-white dark:bg-gray-800 p-4 rounded shadow">
+                        <input type="hidden" name="idCalled" value="<?php echo htmlspecialchars($_GET['id']); ?>">
+                        <label class="block mb-2">Descrição do Detalhe:</label>
+                        <textarea name="description" rows="4" class="border border-gray-300 dark:border-gray-600 p-2 rounded w-full mb-4 bg-white dark:bg-gray-700 text-black dark:text-white" required><?php echo htmlspecialchars($details['detail_description'] ?? ''); ?></textarea>
+                        <input type="hidden" name="idTechnician" value="<?php echo htmlspecialchars($details['id_technician'] ?? ''); ?>">
+                        <input type="hidden" name="matriculaTechnician" value="<?php echo htmlspecialchars($details['matricula_technician'] ?? ''); ?>">
+                        <button type="submit" name="updateDetail" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Atualizar</button>
                     </form>
                 </section>
             </section>
         <?php } ?>
-        <section id="criar_chamado" class="w-full flex flex-col items-center mt-10">
-            <h2 class="text-2xl mb-4">Criar Novo Chamado</h2>
-            <form method="POST" action="" class="w-3/4 bg-white p-6 rounded shadow">
-                <label for="idUser" class="block mb-2">ID do Usuário:</label>
-                <input type="number" name="idUser" id="idUser" required class="border border-gray-300 p-2 rounded w-full mb-4">
 
-                <label for="codeCalled" class="block mb-2">Código do Chamado:</label>
-                <input type="text" name="codeCalled" id="codeCalled" required class="border border-gray-300 p-2 rounded w-full mb-4">
+        <section>
+            <h2 class="text-xl font-semibold mb-4">Criar Novo Chamado</h2>
+            <form method="POST" class="bg-white dark:bg-gray-800 p-6 rounded shadow">
+                <label class="block mb-2">ID do Usuário:</label>
+                <input type="number" name="idUser" required class="border border-gray-300 dark:border-gray-600 p-2 rounded w-full mb-4 bg-white dark:bg-gray-700 text-black dark:text-white">
 
-                <label for="description" class="block mb-2">Descrição:</label>
-                <textarea name="description" id="description" rows="4" required class="border border-gray-300 p-2 rounded w-full mb-4"></textarea>
+                <label class="block mb-2">Código do Chamado:</label>
+                <input type="text" name="codeCalled" required class="border border-gray-300 dark:border-gray-600 p-2 rounded w-full mb-4 bg-white dark:bg-gray-700 text-black dark:text-white">
+
+                <label class="block mb-2">Descrição:</label>
+                <textarea name="description" rows="4" required class="border border-gray-300 dark:border-gray-600 p-2 rounded w-full mb-4 bg-white dark:bg-gray-700 text-black dark:text-white"></textarea>
 
                 <button type="submit" name="createCalled" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Criar Chamado</button>
             </form>
         </section>
+    </main>
 
-        </main>
+    <?php if (!empty($_SESSION['toast'])):
+        $toast = $_SESSION['toast'];
+        $bgColor = $toast['type'] === 'success' ? 'bg-green-500' : 'bg-red-500';
+        $message = htmlspecialchars($toast['message'], ENT_QUOTES, 'UTF-8');
+        unset($_SESSION['toast']);
+    ?>
+        <div id="toast"
+            class="fixed bottom-5 right-5 z-50 text-white px-5 py-3 rounded-lg shadow-lg transition-opacity duration-300 <?= $bgColor ?>">
+            <?= $message ?>
+        </div>
+
+        <script>
+            // Oculta o toast após 3 segundos
+            setTimeout(() => {
+                const toast = document.getElementById('toast');
+                if (toast) {
+                    toast.style.opacity = '0';
+                    setTimeout(() => toast.remove(), 300); // Remove após fade-out
+                }
+            }, 3000);
+        </script>
+    <?php endif; ?>
 </body>
 
 </html>
