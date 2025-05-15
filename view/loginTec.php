@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,29 +8,48 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="../javascript/tec.js" defer></script>
   <title>Login dos tecnicos</title>
-      <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#4bb6b7',
-                        darkblue: 'rgb(43, 43, 151)',
-                    },
-                    animation: {
-                        'show': 'show 0.6s ease-in-out',
-                    },
-                    keyframes: {
-                        show: {
-                            '0%, 49.99%': { opacity: '0', zIndex: '1' },
-                            '50%, 100%': { opacity: '1', zIndex: '5' },
-                        }
-                    }
-                }
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#4bb6b7',
+            darkblue: 'rgb(43, 43, 151)',
+          },
+          animation: {
+            'show': 'show 0.6s ease-in-out',
+          },
+          keyframes: {
+            show: {
+              '0%, 49.99%': {
+                opacity: '0',
+                zIndex: '1'
+              },
+              '50%, 100%': {
+                opacity: '1',
+                zIndex: '5'
+              },
             }
+          }
         }
-    </script>
+      }
+    }
+  </script>
+  <script>
+    (function() {
+      const userPref = localStorage.getItem('theme');
+      const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+      if (userPref === 'dark' || (!userPref && systemPrefersDark)) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    })();
+  </script>
 </head>
+
 <body class="min-h-screen bg-gray-100 flex items-center justify-center">
 
   <div class="w-full max-w-md p-6">
@@ -56,4 +76,5 @@
   </div>
 
 </body>
+
 </html>

@@ -22,6 +22,28 @@
             }
         }
     </script>
+    <script>
+        (function() {
+            const userPref = localStorage.getItem('theme');
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+            if (userPref === 'dark' || (!userPref && systemPrefersDark)) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        })();
+
+        const toggleTheme = () => {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+    </script>
     <title>Sistema de Chamados</title>
 </head>
 
@@ -130,7 +152,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['updateStatus'])) {
 
         <h1 class="text-3xl text-center font-bold flex-1">Sistema de Chamados</h1>
 
-        <button onclick="document.documentElement.classList.toggle('dark')" class="text-sm underline hover:text-gray-200 transition flex items-center mx-5">
+        <button onclick="toggleTheme()" class="text-sm underline hover:text-gray-200 transition flex items-center mx-5">
             <i class="fa-solid fa-moon mr-2"></i>
             Alternar tema
         </button>

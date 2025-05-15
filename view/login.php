@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -22,13 +23,31 @@
                     },
                     keyframes: {
                         show: {
-                            '0%, 49.99%': { opacity: '0', zIndex: '1' },
-                            '50%, 100%': { opacity: '1', zIndex: '5' },
+                            '0%, 49.99%': {
+                                opacity: '0',
+                                zIndex: '1'
+                            },
+                            '50%, 100%': {
+                                opacity: '1',
+                                zIndex: '5'
+                            },
                         }
                     }
                 }
             }
         }
+    </script>
+    <script>
+        (function() {
+            const userPref = localStorage.getItem('theme');
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+            if (userPref === 'dark' || (!userPref && systemPrefersDark)) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        })();
     </script>
     <style type="text/tailwindcss">
         @layer utilities {
@@ -76,6 +95,7 @@
         }
     </style>
 </head>
+
 <body class="obj bg-gray-100 flex justify-center items-center flex-col h-screen overflow-hidden dark:bg-black">
     <header class="topo w-full absolute top-0 left-0 z-[1000] px-4 flex justify-between items-center">
         <button class="tema obj bg-transparent border-none p-0 m-0 cursor-pointer">
@@ -89,7 +109,7 @@
             <i class="fa-solid fa-sun obj text-2xl" id="dark"></i>
         </button>
     </header>
-    
+
     <div class="container obj bg-white rounded-3xl shadow-custom relative overflow-hidden w-[768px] max-w-full min-h-[500px] dark:shadow-custom-dark" id="container">
         <!-- Formulário de Login -->
         <div class="form-container login-container absolute top-0 h-full transition-all duration-600 ease-in-out left-0 w-1/2 z-10">
@@ -114,7 +134,7 @@
         </div>
 
         <!-- Formulário de Registro -->
-        <div class="form-container register-container absolute top-0 h-full transition-all duration-600 ease-in-out left-0 w-1/2 opacity-0 z-0">   
+        <div class="form-container register-container absolute top-0 h-full transition-all duration-600 ease-in-out left-0 w-1/2 opacity-0 z-0">
             <form action="" method="POST" id="form" class="form_register flex flex-col items-center justify-center bg-white text-center px-12 min-h-full overflow-y-auto">
                 <h1 class="problema font-bold text-3xl mb-3">Registre aqui</h1>
                 <input type="hidden" name="action" value="register">
@@ -159,7 +179,7 @@
                 <button type="submit" id="vali_register" class="rl-tema obj rounded-2xl border border-primary bg-primary text-white font-bold py-3 px-20 mx-2 my-2 transition-slow hover:tracking-wider active:scale-95 focus:outline-none dark:border-darkblue dark:bg-darkblue">
                     Registrar
                 </button>
-            </form> 
+            </form>
         </div>
 
         <!-- Overlay Container -->
@@ -245,17 +265,21 @@
                 height: 85vh;
                 margin: 2.5rem 0;
             }
+
             .form-container {
                 width: 100%;
             }
+
             .login-container {
                 height: 50%;
             }
+
             .register-container {
                 height: 50%;
                 overflow-y: auto;
                 background: white;
             }
+
             .overlay-container {
                 top: unset;
                 width: 100%;
@@ -263,30 +287,38 @@
                 bottom: 0;
                 left: 0;
             }
+
             .content {
                 flex-direction: column;
             }
+
             button {
                 padding: 10px 40px;
             }
+
             .container.right-panel-active .overlay {
                 transform: translateX(50%);
             }
+
             .container.right-panel-active .overlay-container {
                 transform: translateY(-100%);
             }
+
             .container.right-panel-active .register-container {
                 transform: translateY(100%);
             }
+
             .problema {
                 margin-top: 4.5rem;
             }
+
             .social-container {
                 width: 100%;
                 justify-content: space-between;
                 gap: 0.25rem;
                 display: flex;
             }
+
             .social-container a {
                 height: 3.25rem;
                 width: 3.25rem;
@@ -299,27 +331,34 @@
                 padding: 20px;
                 height: 100%;
             }
+
             .container {
                 height: 85vh;
                 margin: 1rem 0;
             }
+
             .senha_tamanho {
                 flex-wrap: wrap;
                 justify-content: center;
                 gap: 1.25rem;
             }
+
             .senha_title {
                 font-size: 1.5em;
             }
+
             .senha_dados-info {
                 margin: 0.5rem 0;
             }
+
             .especial {
                 margin-bottom: 0;
             }
+
             .senha-btn {
                 margin: 0.75rem 0;
             }
+
             .senha_texto {
                 line-height: 1.5;
             }
@@ -329,14 +368,17 @@
             .register-container {
                 padding-top: 10.25rem;
             }
+
             .problema {
                 margin-top: 0;
             }
+
             .container {
                 margin-top: 3rem;
                 margin-bottom: 1rem;
                 height: 82vh;
             }
+
             .login-container {
                 padding-top: 4.25rem;
             }
@@ -346,13 +388,16 @@
             .register-container {
                 padding-top: 10.20rem;
             }
+
             .problema {
                 margin-top: 0;
             }
+
             .container {
                 margin-top: 3rem;
                 margin-bottom: 1rem;
             }
+
             .login-container {
                 padding-top: 4.25rem;
                 overflow-y: auto;
@@ -363,24 +408,31 @@
         .obj.dark #dark {
             color: white;
         }
+
         .home-link.dark {
             color: white;
         }
+
         .tema:hover .home-link.dark {
             color: rgb(43, 43, 151);
         }
+
         .social-container.dark a {
             border: 2px solid rgb(43, 43, 151);
         }
+
         .senha_btn.dark:hover i {
             color: rgb(43, 43, 151);
         }
+
         a.dark:hover {
             color: rgb(43, 43, 151);
         }
+
         .tema.dark:hover .home-link {
             color: rgb(43, 43, 151);
         }
     </style>
 </body>
+
 </html>
