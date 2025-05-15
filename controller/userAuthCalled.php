@@ -46,14 +46,14 @@ class userAuthCalled {
     }
 
     // Obtém um chamado específico 
-    public function getCalled($idCalled) {
+    public function getCalled($idCalled, $id_user) {
         if (!$this->isAuthenticated()) {
             echo "Acesso negado! Usuário não autenticado.";
             return false;
         }
 
         $userCalledModel = new userCalled();
-        $called = $userCalledModel->getCalled($idCalled);
+        $called = $userCalledModel->getCalled($idCalled, $id_user);
         if ($called) {
             return $called;
         } else {

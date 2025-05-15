@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   switch ($action) {
     case 'busca':
       $userCalled = new userAuthCalled();
-      $called = $userCalled->getCalled($id_chamado);
+      $called = $userCalled->getCalled($id_chamado, $id_user);
       if ($called) {
         $descricao = $called['description'];
         $status = $called['estatus'];
