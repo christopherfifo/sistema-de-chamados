@@ -67,6 +67,23 @@ class userCalled
         }
     }
 
+    public function getDetailsUSerCalled($idCalled)
+    {
+        try {
+            $query = "SELECT t.id, t.name, t.cpf, ct.description
+                    FROM Calleds_technicians ct
+                    INNER JOIN Technicians t ON ct.id_technician = t.id
+                    WHERE ct.id_called = ?";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute([$idCalled]);
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $result ? $result : null;
+        } catch (PDOException $e) {
+            error_log("Erro ao obter dados simples do técnico: " . $e->getMessage());
+            return false;
+        }
+    }
+
 // Lista todos os chamados relacionados ao usuário sem apelidos nos campos
 public function listCalleds($id_user)
 {

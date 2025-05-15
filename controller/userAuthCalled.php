@@ -45,6 +45,23 @@ class userAuthCalled {
         }
     }
 
+        // Obtém os detalhes do chamado
+    public function userGetDetailsTec($idCalled) {
+        if (!$this->isAuthenticated()) {
+            echo "Acesso negado! Usuário não autenticado.";
+            return false;
+        }
+
+        $userCalledModel = new userCalled();
+        $details = $userCalledModel->getDetailsUSerCalled($idCalled);
+        if ($details) {
+            return $details;
+        } else {
+            echo "Erro ao obter detalhes do chamado!";
+            return false;
+        }
+    }
+
     // Obtém um chamado específico 
     public function getCalled($idCalled, $id_user) {
         if (!$this->isAuthenticated()) {
@@ -58,6 +75,8 @@ class userAuthCalled {
             return $called;
         } else {
             echo "Erro ao obter chamado!";
+            header("Location: ../view/userCalledsPage.php");
+            exit;
             return false;
         }
     }

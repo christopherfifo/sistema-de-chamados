@@ -49,9 +49,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       if ($called) {
         $descricao = $called['description'];
         $status = $called['estatus'];
-      } else {
-        echo "Erro ao obter chamado!";
-      }
+
+    if($status === 'Fechado') {
+      $details = $userCalled->userGetDetailsTec($id_chamado);
+      $name_tec = isset($details['name']) ? $details['name'] : '';
+      $cpf_tec = isset($details['cpf']) ? $details['cpf'] : '';
+      $description_tec = isset($details['description']) ? $details['description'] : '';
+    }
+      } 
       break;
     case 'listar_chamados':
       $userCalled = new userAuthCalled();
@@ -129,28 +134,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="bg-gray-100 dark:bg-gray-700 p-4 rounded-xl space-y-2">
       <h4 class="text-lg font-semibold">Resultado:</h4>
       <?php if (!empty($descricao)): ?>
-        <div class="flex justify-between items-center bg-white dark:bg-gray-800 p-3 rounded-xl">
-          <div>
-            <p><strong>ID:</strong> <?php echo htmlspecialchars($id_chamado); ?></p>
-            <p><strong>Descrição:</strong> <?php echo htmlspecialchars($descricao); ?></p>
-            <p><strong>Status:</strong>
-              <span class="<?php
-                            echo $status === 'Fechado' ? 'text-red-600' : ($status === 'Aberto' ? 'text-green-600' : ($status === 'Andamento' ? 'text-yellow-600' : 'text-gray-600')); ?>">
-                <?php echo htmlspecialchars($status); ?>
-              </span>
-            </p>
-          </div>
-          <?php if ($status !== 'Fechado'): ?>
-            <form method="POST">
-              <input type="hidden" name="id" value="<?php echo htmlspecialchars($id_chamado); ?>">
-              <input type="hidden" name="action" value="deletar" />
-              <button type="submit" class="text-red-600 hover:text-red-800 transition font-bold">
-                <i class="fas fa-trash"></i> Deletar
-              </button>
-            </form>
-          <?php endif; ?>
-        <?php endif; ?>
+      <div class="flex justify-between items-center bg-white dark:bg-gray-800 p-3 rounded-xl">
+        <div>
+        <p><strong>ID:</strong> <?php echo htmlspecialchars($id_chamado); ?></p>
+        <p><strong>Descrição:</strong> <?php echo htmlspecialchars($descricao); ?></p>
+        <p><strong>Status:</strong>
+          <span class="<?php
+                echo $status === 'Fechado' ? 'text-red-600' : ($status === 'Aberto' ? 'text-green-600' : ($status === 'Em Andamento' ? 'text-yellow-600' : 'text-gray-600')); ?>">
+          <?php echo htmlspecialchars($status); ?>
+          </span>
+        </p>
         </div>
+        </div>
+        <?php if ($status === 'Fechado'): ?>
+        <div class="mt-4 bg-gray-50 dark:bg-gray-900 p-3 rounded-xl">
+          <p><strong>Técnico Responsável:</strong> <?php echo htmlspecialchars($name_tec); ?></p>
+          <p><strong>CPF:</strong> <?php echo htmlspecialchars($cpf_tec); ?></p>
+          <p><strong>Descrição do Chamado:</strong> <?php echo htmlspecialchars($description_tec); ?></p>
+        </div>
+        <?php else: ?>
+        <form method="POST">
+          <input type="hidden" name="id" value="<?php echo htmlspecialchars($id_chamado); ?>">
+          <input type="hidden" name="action" value="deletar" />
+          <button type="submit" class="text-red-600 hover:text-red-800 transition font-bold">
+          <i class="fas fa-trash"></i> Deletar
+          </button>
+        </form>
+        <?php endif; ?>
+      </div>
+      <?php endif; ?>
     </div>
 
 
@@ -180,7 +192,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               <p><strong>Descrição:</strong> <?php echo htmlspecialchars($called['description']); ?></p>
               <p><strong>Status:</strong>
                 <span class="<?php
-                              echo $called['estatus'] === 'Fechado' ? 'text-red-600' : ($called['estatus'] === 'Aberto' ? 'text-green-600' : ($called['estatus'] === 'Andamento' ? 'text-yellow-600' : ($called['estatus'] === 'Em Andamento' ? 'text-yellow-600' : 'text-gray-600'))); ?>">
+                              echo $called['estatus'] === 'Fechado' ? 'text-red-600' : ($called['estatus'] === 'Aberto' ? 'text-green-600' : ($called['estatus'] === 'Em Andamento' ? 'text-yellow-600' : ($called['estatus'] === 'Em Andamento' ? 'text-yellow-600' : 'text-gray-600'))); ?>">
                   <?php echo htmlspecialchars($called['estatus']); ?>
                 </span>
               </p>
