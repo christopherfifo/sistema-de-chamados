@@ -48,6 +48,16 @@
                 document.documentElement.classList.remove('dark');
             }
         })();
+
+        const toggleTheme = () => {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
     </script>
     <style type="text/tailwindcss">
         @layer utilities {
@@ -101,12 +111,12 @@
         <button class="tema obj bg-transparent border-none p-0 m-0 cursor-pointer">
             <a href="../index.php" class="home-link obj no-underline text-black flex items-center gap-2 dark:text-white">
                 <span class="home-title text-xl flex items-center gap-1">
-                    <i class="fa-solid fa-house text-2xl" id="home"></i>Home
+                    <i class="fa-solid fa-house text-2xl !text-black dark:!text-darkblue" id="home"></i>Home
                 </span>
             </a>
         </button>
-        <button class="tema bg-transparent border-none w-auto p-0 m-0 cursor-pointer">
-            <i class="fa-solid fa-sun obj text-2xl" id="dark"></i>
+        <button class="tema bg-transparent border-none w-auto p-0 m-0 cursor-pointer" onclick="toggleTheme()">
+            <i class="fa-solid fa-sun obj text-2xl !text-black dark:!text-darkblue" id="dark"></i>
         </button>
     </header>
 
